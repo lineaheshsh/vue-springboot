@@ -1,23 +1,38 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <Header></Header>
+    <SideBar></SideBar>
     <router-view/>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Header from './components/Header/Header.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Header: Header
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+body {margin: 0;}
+
+.container {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1540px !important;
+  }
 }
 </style>

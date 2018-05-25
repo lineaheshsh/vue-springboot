@@ -7,7 +7,7 @@
 
             <b-collapse is-nav id="nav_collapse">
                 <b-navbar-nav v-for="menu in menus" :key="menu">
-                    <b-nav-item href="#">{{ menu }}</b-nav-item>
+                  <b-nav-item href="#">{{ menu }}</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->

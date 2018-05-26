@@ -29,17 +29,25 @@ export default {
       console.log('user --> ' + this.user)
       console.log('password --> ' + this.password)
 
-      this.$http.get('/loginCheck?ID=12345')
-          .then(function (response) {
-            console.log(response);
-          }).catch(function (error) {
-            console.log(error);
-          })
+      let data = JSON.stringify({
+        user: this.user,
+        password: this.password
+      })
+
+      this.$http.post('/loginCheck', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
     //   this.$http({
     //     method: 'post',
     //     url: '/loginCheck',
+    //     header: {
+    //       'Content-Type': 'multipart/form-data'
+    //     },
     //     data: {
-    //       user: this.user
+    //       formData
     //     }
     //   })
     }

@@ -29,14 +29,10 @@ export default {
       console.log('user --> ' + this.user)
       console.log('password --> ' + this.password)
 
-      let data = JSON.stringify({
-        user: this.user,
-        password: this.password
-      })
-
-      this.$http.post('/loginCheck', data, {
-        headers: {
-          'Content-Type': 'application/json'
+      this.$http.post('/loginCheck', {
+        data: {
+          user: this.user,
+          password: this.password
         }
       })
 

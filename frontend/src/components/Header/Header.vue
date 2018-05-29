@@ -6,9 +6,9 @@
             </router-link>
 
             <b-collapse is-nav id="nav_collapse">
-                <b-navbar-nav v-for="menu in menus" :key="menu">
+                <!-- <b-navbar-nav v-for="menu in menus" :key="menu">
                   <b-nav-item href="#">{{ menu }}</b-nav-item>
-                </b-navbar-nav>
+                </b-navbar-nav> -->
 
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
@@ -22,14 +22,26 @@
                         <b-dropdown-item href="#"  v-for="lang in langs" :key="lang">{{ lang }}</b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown right>
+                    <div v-if="this.$store.state.user">
+                      <b-nav-item-dropdown right>
                         <!-- Using button-content slot -->
+                          <template slot="button-content">
+                          <em>{{ this.$store.state.user }}</em>
+                          </template>
+                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item href="/logout">Signout</b-dropdown-item>
+                      </b-nav-item-dropdown>
+                    </div>
+                    <div v-else>
+                      <b-nav-item-dropdown right>
+                      <!-- Using button-content slot -->
                         <template slot="button-content">
                         <em>User</em>
                         </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Signout</b-dropdown-item>
-                    </b-nav-item-dropdown>
+                        <b-dropdown-item href="/login">Login</b-dropdown-item>
+                      </b-nav-item-dropdown>
+                    </div>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -37,21 +49,28 @@
 </template>
 
 <script>
-
 export default {
   name: 'Header',
   data () {
     return {
       menus: [],
       langs: [],
-      keyword: ''
+      keyword: '',
+      user: ''
     }
   },
   created () {
     this.menus = ['News', 'Chart', 'Project']
     this.langs = ['EN', 'CN', 'KO']
+
+    // this.$eventHub.$on('loginEventBus', this.login)
   },
   methods: {
+    logout () {
+      this.$store.state.user = ''
+      this.$router.push('/')
+      console.log('logout success....')
+    },
     search () {
       console.log('search Kwd : ' + this.keyword)
     }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +12,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.boot.spring.security.LoginUserDetails;
+import com.boot.spring.login.service.LoginService;
+import com.boot.spring.member.vo.MemberVO;
+import com.google.gson.Gson;
 
 @Controller
 public class LoginController {
 	
-	@RequestMapping(value="/login")
-	public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
+	@Autowired
+	LoginService loginService;
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String login() {
+//		public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
 		System.out.println("Login Page -> Go");
 		
 		return "index";
@@ -27,28 +33,20 @@ public class LoginController {
 	
 	@RequestMapping(value="/loginCheck", method=RequestMethod.POST)
 	@ResponseBody
-	public String loginCheck(HttpServletRequest request, @RequestBody String userJSON, @RequestParam Map<String, Object> map) {
+	public String loginCheck(HttpServletRequest request, @RequestBody String userJSON, @RequestParam Map<String, Object> map) throws Exception{
 		
 		String result = "failed";
+		Gson gson = new Gson();
 		
-//		if ( loginInfo.isEmpty() ) {
-//			result = "failed";
-//			System.out.println("Login Info is Null");
-//		String a = request.getParameter("user");
-//		System.out.println("user : " + a);
-//		}
-//		
-//		String user = (String) loginInfo.get("user");
-//		String passwd = (String) loginIc nfo.get("password");
-		System.out.println("request Body : " + userJSON.toString());
-		System.out.println("request header : " + request.getContentType());
-		System.out.println("Map : " + map.size());
-		for (String mapkey : map.keySet()){
-	        System.out.println("key:"+mapkey+",value:"+map.get(mapkey));
-	    }
-//		System.out.println("passwd : " + passwd);
+		MemberVO memberVO = loginService.loginCheck(userJSON);
 		
-		result = "ok";
-		return result;
+		if ( memberVO == null ) {
+			result = "failed";
+			return result;
+		}
+		else 
+			return gson.toJson(memberVO);
+		
+		
 	}
 }

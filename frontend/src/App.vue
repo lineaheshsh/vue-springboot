@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <Header></Header>
-    <SideBar></SideBar>
-    <router-view/>
+    <section>
+      <router-view name="sidebar"></router-view>
+      <router-view/>
+    </section>
     <Footer></Footer>
   </div>
 </template>
@@ -24,11 +26,21 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 body {margin: 0;}
 
+section {
+  display: flex;
+  width: 100%;
+  flex: 0 0 280px;
+  border-top: 4px solid white;
+  position: absolute;
+  top: 56px;
+  left: 0px;
+  height: 100%;
+}
 .container {
   margin-right: 0px !important;
   margin-left: 0px !important;

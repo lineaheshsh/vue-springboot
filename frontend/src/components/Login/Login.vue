@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="login">
     <div class="logo"></div>
     <div class="login-block">
       <h1>Login</h1>
       <div class="input-form">
         <i class="fas fa-user fa-lg" aria-hidden="true"></i>
-        <input type="text" value="" v-model="user" v-on:keyup="login" placeholder="Username" id="username" />
+        <input type="text" value="" v-model="user" placeholder="Username" id="username" />
       </div>
       <div class="input-form">
         <i class="fas fa-key fa-lg" aria-hidden="true"></i>
@@ -34,18 +34,16 @@ export default {
           user: this.user,
           password: this.password
         }
+      }).then((result) => {
+        console.log('result : ' + result)
+        if (result.data === 'failed') {
+          alert('로그인 정보가 잘못되었습니다.')
+        } else {
+          alert('로그인 성공!')
+          this.$store.state.user = result.data.m_name
+          this.$router.push('/')
+        }
       })
-
-    //   this.$http({
-    //     method: 'post',
-    //     url: '/loginCheck',
-    //     header: {
-    //       'Content-Type': 'multipart/form-data'
-    //     },
-    //     data: {
-    //       formData
-    //     }
-    //   })
     }
   }
 }
@@ -57,6 +55,10 @@ export default {
     height: 36px;
     /* background: url('http://i.imgur.com/fd8Lcso.png') no-repeat; */
     margin: 30px auto;
+}
+
+#login {
+    margin: 0 auto
 }
 
 .input-form {

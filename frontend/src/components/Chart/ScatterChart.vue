@@ -2,7 +2,7 @@
 import VueCharts from 'vue-chartjs'
 
 export default {
-  extends: VueCharts.Bar,
+  extends: VueCharts.Radar,
   data () {
     return {
       datacollection: {

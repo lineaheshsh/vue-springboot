@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container class="header">
         <b-navbar toggleable="md" type="dark" variant="info">
             <router-link to="/" exact>
                 <b-navbar-brand href="#"><img src="../../assets/logo.png" style="width: 20px; height: 20px"></b-navbar-brand>
@@ -63,11 +63,13 @@ export default {
     this.menus = ['News', 'Chart', 'Project']
     this.langs = ['EN', 'CN', 'KO']
 
+    this.$store.state.user = localStorage.getItem('user')
     // this.$eventHub.$on('loginEventBus', this.login)
   },
   methods: {
     logout () {
       this.$store.state.user = ''
+      this.$session.destroy()
       this.$router.push('/')
       console.log('logout success....')
     },
@@ -78,4 +80,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.header {
+    position: fixed;
+    z-index: 1000;
+}
+</style>

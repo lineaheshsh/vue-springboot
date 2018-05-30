@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Main from '@/components/Main'
 import Login from '@/components/Login/Login'
 import Sidebar from '../components/Side/Sidebar.vue'
 
@@ -12,7 +12,7 @@ export default new Router({
     {
       path: '/',
       components: {
-        default: HelloWorld,
+        default: Main,
         sidebar: Sidebar
       }
     },
@@ -23,7 +23,7 @@ export default new Router({
     },
     {
       path: '/logout',
-      component: HelloWorld
+      component: Main
     }
   ]
 })

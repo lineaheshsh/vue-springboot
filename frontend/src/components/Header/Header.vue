@@ -69,7 +69,7 @@ export default {
   methods: {
     logout () {
       this.$store.state.user = ''
-      this.$session.destroy()
+      localStorage.removeItem('user')
       this.$router.push('/')
       console.log('logout success....')
     },

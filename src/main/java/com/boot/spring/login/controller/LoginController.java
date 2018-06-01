@@ -30,6 +30,14 @@ public class LoginController {
 		return "index";
 	}
 	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public String logout() {
+//		public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
+		System.out.println("Main Page -> Go");
+		
+		return "index";
+	}
+	
 	
 	@RequestMapping(value="/loginCheck", method=RequestMethod.POST)
 	@ResponseBody

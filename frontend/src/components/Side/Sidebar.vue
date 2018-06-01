@@ -15,8 +15,8 @@
     <div id="noProfile" v-show="!this.$store.state.user" />
     <b-nav vertical class="w-100">
       <b-nav-item> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Info</b-nav-item>
-      <b-nav-item disabled> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Career</b-nav-item>
-      <b-nav-item active> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
+      <b-nav-item> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Career</b-nav-item>
+      <b-nav-item> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
       <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
     </b-nav>
   </div>
@@ -67,7 +67,8 @@ export default {
 }
 
 .nav-item a {
-    margin-left: 85px
+    margin-left: 85px;
+    margin-top: 20px;
 }
 
 img {

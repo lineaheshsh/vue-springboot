@@ -23,7 +23,10 @@ export default new Router({
     },
     {
       path: '/logout',
-      component: Main
+      components: {
+        default: Main,
+        sidebar: Sidebar
+      }
     }
   ]
 })

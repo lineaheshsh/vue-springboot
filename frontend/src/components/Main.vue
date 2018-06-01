@@ -7,7 +7,7 @@
             <b-input-group>
               <b-form-input placeholder="Search Keyword"></b-form-input>
               <b-input-group-append>
-                <b-btn variant="outline-success">Button</b-btn>
+                <b-btn variant="outline-success">Search</b-btn>
               </b-input-group-append>
             </b-input-group>
           </b-col>

@@ -34,24 +34,25 @@ public class SystemService {
 		System.out.println(path);
 		
 		
-		String[] cmd = new String[3];
-		cmd[0] = "/bin/sh";
-		cmd[1] = "-c";
-        cmd[2] = path + "python.bat";
+//		String[] cmd = new String[3];
+//		cmd[0] = "/bin/sh";
+//		cmd[1] = "-c";
+//        cmd[2] = path + "python.bat";
 
-		String s;
+//		String s;
+//		Runtime run = Runtime.getRuntime();
 		
-		try {
-			Process p = Runtime.getRuntime().exec(path + "python.bat");
+//		try {
+//			Process p = Runtime.getRuntime().exec(path + "python.bat");
 			
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((s = stdInput.readLine()) != null ) {
-				System.out.println("s : " + s);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//			while ((s = stdInput.readLine()) != null ) {
+//				System.out.println("s : " + s);
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		result.put("TotalSpace", displayFilesize(root.getTotalSpace()) );
 		result.put("UsableSpace", displayFilesize(root.getUsableSpace()) );

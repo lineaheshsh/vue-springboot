@@ -9,25 +9,40 @@ package com.boot.spring.search.vo;
  * @version 1.0
  */
 public class SearchVO {
-	private String scenario;
-	private String[] fields;
+	private String url;
+	private String fields;
+	private String from;
+	private String charset;	
+		
 	private String query;
 	private String logInfo;
 	private String hilightTxt;
 	private String orderBy;
-	private boolean flag;
+
 	
-	public String getScenario() {
-		return scenario;
+	public String getUrl() {
+		return url;
 	}
-	public void setScenario(String scenario) {
-		this.scenario = scenario;
-	}	
-	public String[] getFields() {
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getFields() {
 		return fields;
 	}
-	public void setFields(String[] fields) {
+	public void setFields(String fields) {
 		this.fields = fields;
+	}	
+	public String getFrom() {
+		return from;
+	}
+	public void setFrom(String from) {
+		this.from = from;
+	}
+	public String getCharset() {
+		return charset;
+	}
+	public void setCharset(String charset) {
+		this.charset = charset;
 	}
 	public String getQuery() {
 		return query;
@@ -53,10 +68,4 @@ public class SearchVO {
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
 	}
-	public boolean isFlag() {
-		return flag;
-	}
-	public void setFlag(boolean flag) {
-		this.flag = flag;
-	}	
 }

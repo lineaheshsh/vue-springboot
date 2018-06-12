@@ -1,18 +1,6 @@
 <template>
   <div id="contents">
     <b-container class="bv-example-row chartDiv">
-      <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-      <b-row>
-          <b-col cols="18" md="12" class="searchInput">
-            <b-input-group>
-              <b-form-input placeholder="Search Keyword"></b-form-input>
-              <b-input-group-append>
-                <b-btn variant="outline-success">Search</b-btn>
-              </b-input-group-append>
-            </b-input-group>
-          </b-col>
-      </b-row>
-
       <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
       <b-row class="chart-container">
           <b-col cols="6">
@@ -21,7 +9,7 @@
           </b-col>
           <b-col cols="6">
             <h3>Bar Chart</h3>
-            <bar-chart></bar-chart>
+            <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
           </b-col>
       </b-row>
 
@@ -50,11 +38,13 @@ export default {
   name: 'Main',
   data () {
     return {
-      pieDatacollection: null
+      pieDatacollection: null,
+      barDatacollection: null
     }
   },
   mounted () {
     this.showDisk()
+    this.showMonth()
     // this.temp()
   },
   methods: {
@@ -81,6 +71,18 @@ export default {
           }
         })
     },
+    showMonth () {
+      this.barDatacollection = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: ['#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige'],
+            data: [10, 80, 56, 60, 6, 45, 15]
+          }
+        ]
+      }
+    },
     temp () {
       this.pieDatacollection = {
         labels: ['Free', 'Usage'],
@@ -97,6 +99,13 @@ export default {
   },
   computed: {
     pieStyle () {
+      return {
+        height: `450px`,
+        width: `450px`,
+        position: `relative`
+      }
+    },
+    barStyle () {
       return {
         height: `450px`,
         width: `450px`,

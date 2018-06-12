@@ -3,16 +3,17 @@ package com.boot.spring.search.common;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+//import org.apache.commons.lang3.builder.ToStringBuilder;
+//import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.boot.spring.search.vo.ParameterVO;
 import com.boot.spring.search.vo.ResultListVO;
-import com.boot.spring.search.vo.SearchVO;
+
 
 /**
  * 일반 공통 유틸 클래스
@@ -148,8 +149,7 @@ public class CommonUtil {
 			java.text.DecimalFormat df = new java.text.DecimalFormat("###,###,###,###,###,###,###");
 			return df.format(iAmount);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("formatMoney error");
 		}
 		return result;
 	}
@@ -166,8 +166,7 @@ public class CommonUtil {
 			
 			return df.format(iAmount);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("formatMoney error");
 		}
 		return result;
 	}
@@ -227,7 +226,45 @@ public class CommonUtil {
 		return sbDate.toString();
 	}
     
-    
+    /** 
+     * 이전검색어 히든 태그 생성 후 반환.
+     * 
+     * @param srchParam ParameterVO 오브젝트
+     * @return 이전 검색어 태그 문자열
+     */
+    public StringBuffer makeHtmlForPreKwd(ParameterVO srchParam) {
+    	StringBuffer preKwdStr = new StringBuffer("");
+    	int tmpCnt = 0;
+
+    	preKwdStr.append("<input type='hidden' name=\"preKwd\" value=\"" + srchParam.getKwd() + "\" />\n");
+    	if (srchParam.getReSrchFlag()) {
+    		if ( srchParam.getPreKwds() != null ) {
+    			int preKwdCnt = srchParam.getPreKwds().length;
+    			
+    			tmpCnt = 0;
+    			//if (!escapeQuery(prevKwd[i]).equalsIgnoreCase(kwd)) {
+    			if (srchParam.getPreKwds()[0].equals(srchParam.getKwd()) && preKwdCnt > 1 ) {
+    				tmpCnt = 1; 
+    			}
+    			
+    			for ( ; tmpCnt < preKwdCnt; tmpCnt++) {
+    				if (!srchParam.getPreKwds()[tmpCnt].equalsIgnoreCase(srchParam.getKwd())) {
+    					//System.out.println(tmpCnt + " : " + srchParam.getPreKwds()[tmpCnt]);
+    					preKwdStr.append( "<input type=\"hidden\" name=\"preKwd\" value=\"").append(srchParam.getPreKwds()[tmpCnt]).append("\" />\n");
+    				}
+    			}
+
+    			/* 이전검색어 & 키워드가 존재하는 경우 / 첫페이지내 검색시만 생성 / 2개 키워드가 같지 않은경우*/
+    			if ( srchParam.getKwd().length() > 0 && srchParam.getPageNum() == 1
+    				&& !srchParam.getKwd().equals(srchParam.getPreKwds()[0]) ) {
+    				srchParam.setRecKwd(srchParam.getPreKwds()[0] + "||" + srchParam.getKwd());    // 추천검색어 구성용 단어 생성
+    			}
+    		} // end of if
+    	} // end of if  
+    	
+    	
+    	return preKwdStr;
+    }
     
     /**
      * target값과 비교값이 같을 경우 특정 값을 리턴.
@@ -517,78 +554,6 @@ public class CommonUtil {
 	}
 	
 	
-	
-	
-	/**
-	 * XML 쿼리를 읽어, 검색엔진에 맞게 파라미터를 대입한다.
-	 * 
-	 * @param query
-	 * 
-	 * @return parse Query
-	 */
-	public SearchVO readQuery(String query, Map<String, String> map) {
-		SearchVO search = new SearchVO();
-		String select = "";
-		String where = "";
-		String tempQuery = "";
-		String[] tempFields;
-		
-		int start = -1;
-		int end = -1;
-		
-		start = query.indexOf("select") + 6;
-		end = query.indexOf("from");
-		
-		select = query.substring(start, end).trim();
-		tempQuery = query.substring(end+4);		
-		end = tempQuery.indexOf("where");
-		where = tempQuery.substring(end+5);
-		
-		tempFields = select.split(",");		
-		for(int i=0; i<tempFields.length; i++) {
-			tempFields[i] = tempFields[i].trim();
-		}
-		
-		search.setFields(tempFields);
-		search.setScenario(tempQuery.substring(0,end).trim());		
-		search.setQuery(parseWhereClause(where.trim(), map));
-		
-		return search;
-	}
-	
-	
-	/**
-	 * Where 조건을 파싱한다.
-	 * 
-	 * @param whereQuery
-	 * @param value map
-	 */
-	public String parseWhereClause(String whereQuery, Map<String, String> map) {
-		String tagNm = "";
-		int tagS = whereQuery.indexOf("<");	// 첫 위치
-		int tagE = whereQuery.indexOf(">");	// 끝 위치
-		
-		String whereStr = whereQuery;
-		
-		if(tagS != -1 && tagE != -1) {
-			tagNm = whereQuery.substring(tagS+1, tagE);			
-			whereStr = whereQuery.substring(tagE+1, whereQuery.indexOf("</" + tagNm + ">"));
-		}
-		
-		whereStr = whereStr.replaceAll("\n", " ");
-		whereStr = whereStr.replaceAll("\t", " ");
-		whereStr = whereStr.trim();
-			
-		Iterator<String> keys = map.keySet().iterator();
-		while(keys.hasNext()) {
-			tagNm = keys.next();			
-			whereStr = whereStr.replaceAll("\\$" + tagNm, "'" + map.get(tagNm) + "'");
-		}
-				
-		return whereStr;
-	}
-	
-	
 	/**
 	 * 쿼리를 체크하여, 불리언 검색이 존재하면 엔진에 맞는 불리언 쿼리로 변경
 	 * 
@@ -604,10 +569,7 @@ public class CommonUtil {
 		
 		for(int i = 0; i < chkStr.length; i++) {
 			if(q.indexOf(chkStr[i]) > -1) {
-				logger.debug(chkStr[i] + "존재");
-				
-				q = q.replaceAll("\\" + chkStr[i], "\\" + boolStr[i]);
-				logger.debug("REPLACE KWD : " + q);
+				q = q.replaceAll("\\" + chkStr[i], "\\" + boolStr[i]);				
 			}
 		}
 		
@@ -627,7 +589,6 @@ public class CommonUtil {
 		
 		for(int i = 0; i < boolStr.length; i++) {
 			if(val.indexOf(boolStr[i]) > -1) {
-				logger.debug(boolStr[i] + "존재 불리언형");
 				return true;
 			}
 		}
@@ -769,8 +730,52 @@ public class CommonUtil {
 			extractKwd = extractKwd.replaceAll(booleanKwd[i], "");
 		}
 		
-		//logger.debug("extractKwd : " + extractKwd);
+		logger.debug("extractKwd : " + extractKwd);
 		return extractKwd;
 	}
+	
+	
+	/**
+     * 현재 날짜로부터 특정 기간 전, 후 날짜 구하여 반환함.
+     * 
+     * @param iMonth 현재로부터 구하고자 하는 날짜 수 int (과거 : 음수, 미래 : 양수)
+     * @return date 값 문자열 
+	 */
+	public String getTargetMonth(int iMonth) {
+		Calendar temp = Calendar.getInstance();
+		StringBuffer sbDate = new StringBuffer();
+
+		temp.add(Calendar.MONTH, iMonth);
+
+		int nYear = temp.get(Calendar.YEAR);
+		int nMonth = temp.get(Calendar.MONTH) + 1;
+		int nDay = temp.get(Calendar.DAY_OF_MONTH);
+		
+		sbDate.append(nYear);
+		
+		if (nMonth < 10) {
+			sbDate.append("0");
+			sbDate.append(nMonth);
+		}else{
+			sbDate.append(nMonth);
+		}
+		
+		if (nDay < 10) {
+			sbDate.append("0");
+			sbDate.append(nDay);
+		}else{
+			sbDate.append(nDay);
+		}
+
+		return sbDate.toString();
+	}
+	
+//	@Override
+//	public String toString() {
+//	      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+//	}	
+	
+
 }
+
 

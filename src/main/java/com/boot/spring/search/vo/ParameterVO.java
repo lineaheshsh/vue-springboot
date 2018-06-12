@@ -1,5 +1,7 @@
 package com.boot.spring.search.vo;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 /** 
  * 검색 파라미터 Value Object
  * 
@@ -7,14 +9,15 @@ package com.boot.spring.search.vo;
  * @team 기술지원팀(Technical Support)
  * @since 2013.06.20
  * @version 1.0
+ * #20160707 김승희 추가 : nowDate, fields, 
  */
 public class ParameterVO {
 
     /** 검색키워드 */
     private String kwd;
     
-    /** 이전검색어  */
-    public String preKwds;
+    /** 이전검색어 배열 */
+    public String[] preKwds;
     
     /** 검색 카테고리(탭) */
     private String category;
@@ -42,6 +45,9 @@ public class ParameterVO {
     
     /** 검색결과페이지번호 */
     private int pageNum;
+    
+    /** 검색결과페이지번호 */
+    private int offSet;
     
     /** 정렬 */
     private String sort;
@@ -87,7 +93,18 @@ public class ParameterVO {
     
     /** 하이라이트 키워드 */
     private String hilightKwd;
+ 
+    /** 오늘날짜 20160706 */
+    private String nowDate;
     
+    /** 검색영역 20160706*/
+    private String fields;   
+    
+    /** 쿼리 추가*/
+    private String originalQuery;
+	private String previousQuery;
+	private String[] previousQueries; 
+   
 	public String getKwd() {
 		return kwd;
 	}
@@ -96,11 +113,11 @@ public class ParameterVO {
 		this.kwd = kwd;
 	}
 	
-	public String getPreKwds() {
+	public String[] getPreKwds() {
 		return preKwds;
 	}
 
-	public void setPreKwds(String preKwds) {
+	public void setPreKwds(String[] preKwds) {
 		this.preKwds = preKwds;
 	}
 	
@@ -166,6 +183,14 @@ public class ParameterVO {
 
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
+	}
+
+	public int getOffSet() {
+		return offSet;
+	}
+
+	public void setOffSet(int offSet) {
+		this.offSet = offSet;
 	}
 	
 	public String getSort() {
@@ -307,5 +332,45 @@ public class ParameterVO {
 
 	public void setHilightKwd(String hilightKwd) {
 		this.hilightKwd = hilightKwd;
+	}
+	
+	public String getNowDate() {
+		return nowDate;
+	}
+
+	public void setNowDate(String nowDate) {
+		this.nowDate = nowDate;
+	}
+	
+	public String getFields() {
+		return fields;
+	}
+
+	public void setFields(String fields) {
+		this.fields = fields;
+	}
+	
+	public String getPreviousQuery() {
+		return previousQuery;
+	}
+
+	public void setPreviousQuery(String previousQuery) {
+		this.previousQuery = previousQuery;
+	}
+	
+	public String getOriginalQuery() {
+		return originalQuery;
+	}
+
+	public void setOriginalQuery(String originalQuery) {
+		this.originalQuery = originalQuery;
+	}
+	
+	public String[] getPreviousQueries() {
+		return previousQueries;
+	}
+
+	public void setPreviousQueries(String[] previousQueries) {
+		this.previousQueries = previousQueries;
 	}
 }

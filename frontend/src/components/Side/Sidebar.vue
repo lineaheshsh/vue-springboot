@@ -16,7 +16,7 @@
     <b-nav vertical class="w-100">
       <b-nav-item> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Info</b-nav-item>
       <b-nav-item> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Career</b-nav-item>
-      <b-nav-item> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
+      <b-nav-item href="crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
       <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
     </b-nav>
   </div>

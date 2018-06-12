@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '@/components/Main'
-import Login from '@/components/Login/Login'
 import Sidebar from '../components/Side/Sidebar.vue'
+
+import Login from '@/components/Login/Login'
+import Crawler from '@/components/Crawler/Crawler'
 
 Vue.use(Router)
 
@@ -25,6 +27,13 @@ export default new Router({
       path: '/logout',
       components: {
         default: Main,
+        sidebar: Sidebar
+      }
+    },
+    {
+      path: '/crawler',
+      components: {
+        default: Crawler,
         sidebar: Sidebar
       }
     }

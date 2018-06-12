@@ -1,18 +1,24 @@
 package com.boot.spring.search.common;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.stereotype.Component;
 
 import com.boot.spring.search.vo.ParameterVO;
+import com.boot.spring.search.vo.SearchVO;
+
+
 
 /** 
  * 검색 관련 공통 유틸.
  * 
- * @author KONAN Technology
- * @since 2013.08.20
- * @version 2.0
+ * @author jinhoo.jang
+ * @since 2016.04.08
+ * @version 4.0
  */
-@Component
+@Component("dcUtil")
 public class DCUtil {
+	
 	
 	/**
 	 * 검색어에 대한 escape 처리.
@@ -87,9 +93,9 @@ public class DCUtil {
 			logInfo.append("$|");
 
 			if (reSchFlag) {
-				logInfo.append("RESEARCH|");
+				logInfo.append("재검색|");
 			} else {
-				logInfo.append("FIRST|");
+				logInfo.append("첫검색|");
 			}
 			logInfo.append(pageNum);
 			logInfo.append("|");
@@ -418,44 +424,6 @@ public class DCUtil {
 		return query;
 	}
 	
-	/** 
-	 * 재검색 쿼리 생성. 
-	 * 
-	 * @param nmFd 검색대상 필드명 또는 인덱스명
-	 * @param kwd 키워드
-	 * @param prevKwd 이전 키워드 배열
-	 * @param prevKwdLength 이전 키워드 배열 길이
-	 * @param schMethod 검색 메소드
-	 * @return 검색 쿼리 StringBuffer
-	 */
-	public StringBuffer makePreLikeQuery(String nmFd, String kwd, String[] prevKwd, 
-											int prevKwdLength, String schMethod) {
-		StringBuffer query = new StringBuffer("");
-
-		if (prevKwd != null && prevKwdLength > 0) {
-			for (int i = 0; i < prevKwdLength; i++) {
-				if (!escapeQuery(prevKwd[i]).equalsIgnoreCase(kwd)) {
-					if (query.length() > 0) {
-						query.append(" AND ");
-					}
-					query.append(nmFd);
-					query.append(" like '*");
-					query.append(escapeQuery(prevKwd[i]));	
-					//query.append(escapeQuery(CommonUtil.changeEncode(prevKwd[i], "ISO-8859-1", "EUC-KR")));
-					//이전 키워드가 깨질 경우 위의 코드로 대체하도록 한다.
-					
-					query.append("*' ");
-					query.append(schMethod);
-				}
-			}
-			if (query.length() > 0) { 
-				query = new StringBuffer("(").append(query).append(")");
-			}
-		}
-
-		return query;
-	}
-	
 
 	/**
 	 * 배열로 값을 받아와서 한번에 쿼리를 생성
@@ -465,7 +433,7 @@ public class DCUtil {
 	 * 
 	 * @return
 	 */
-/*	public StringBuffer makeMasterQuery(String[][] queryValue, ParameterVO param){
+	public StringBuffer makeMasterQuery(String[][] queryValue, ParameterVO param){
 		StringBuffer query = new StringBuffer();
 		// 재검색 여부 체크
 		if(param.getReSrchFlag() && param.getPreKwds() != null){
@@ -500,7 +468,7 @@ public class DCUtil {
 		
 		return query;
 	}
-	*/
+	
 	/**
 	 * 검색 타입을 체크하여 파람값을 리턴해준다.
 	 * 
@@ -524,4 +492,48 @@ public class DCUtil {
 		
 		return query.toString();
 	}
+	
+	
+	/**
+	 * 파라미터값을 기준으로 REST URL을 생성
+	 * 
+	 * @param params
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String getRestURL(SearchVO searchVO) throws UnsupportedEncodingException {
+		StringBuffer url = new StringBuffer();
+		url.append(searchVO.getUrl());
+		url.append("?select=" + searchVO.getFields());
+		url.append("&from=" + searchVO.getFrom());
+		if ( !searchVO.getQuery().isEmpty() || searchVO.getQuery() != null) url.append("&where=" + searchVO.getQuery());
+		url.append("&offset=0");
+		url.append("&limit=10");
+		url.append("&charset=" + searchVO.getCharset());
+//		url.append("&hilite-fields=" +searchVO.getHilightTxt());
+//		url.append("&custom=" + searchVO.getLogInfo());
+		return url.toString();
+	}
+	
+	/**
+	 * 파라미터값을 기준으로 REST URL을 생성
+	 * 
+	 * @param params
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String getRestURL(ParameterVO paramVO, SearchVO searchVO) throws UnsupportedEncodingException {
+		StringBuffer url = new StringBuffer();
+		url.append(searchVO.getUrl());
+		url.append("?select=" + searchVO.getFields());
+		url.append("&from=" + searchVO.getFrom());
+		url.append("&where=" + searchVO.getQuery());
+		url.append("&offset=" + (paramVO.getPageNum()-1)*paramVO.getPageSize());
+		url.append("&limit=" + paramVO.getPageSize());
+		url.append("&charset=" + searchVO.getCharset());
+		url.append("&hilite-fields=" +searchVO.getHilightTxt());
+		url.append("&custom=" + searchVO.getLogInfo());
+		return url.toString();
+	}
+
 }

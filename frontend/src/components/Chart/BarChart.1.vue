@@ -1,12 +1,21 @@
 <script>
-import { Bar, mixins } from 'vue-chartjs'
-const { reactiveProp } = mixins
+import VueCharts from 'vue-chartjs'
 
 export default {
-  extends: Bar,
-  mixins: [reactiveProp],
+  extends: VueCharts.Bar,
   data () {
     return {
+      datacollection: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+          label: 'Data One',
+          backgroundColor: '#17a2b8',
+          pointBackgroundColor: 'white',
+          borderWidth: 1,
+          pointBorderColor: '#249EBF',
+          data: [40, 20, 30, 50, 90, 10, 20]
+        }]
+      },
       options: {
         scales: {
           yAxes: [{
@@ -24,12 +33,7 @@ export default {
           }]
         },
         legend: {
-          display: true,
-          position: 'bottom'
-        },
-        title: {
-          display: true,
-          text: 'Naver Comment Ranking'
+          display: true
         },
         responsive: true,
         maintainAspectRatio: false
@@ -37,9 +41,7 @@ export default {
     }
   },
   mounted () {
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
-    this.renderChart(this.chartData, this.options)
+    this.renderChart(this.datacollection, this.options)
   }
 }
 </script>

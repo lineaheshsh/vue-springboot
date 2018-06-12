@@ -40,4 +40,8 @@ public class LoginService {
 		
 		return loginDao.loginCheck(loginVO);
 	}
+	
+	public void loginCount() {
+		
+	}
 }

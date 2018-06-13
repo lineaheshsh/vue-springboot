@@ -506,7 +506,7 @@ public class DCUtil {
 		url.append(searchVO.getUrl());
 		url.append("?select=" + searchVO.getFields());
 		url.append("&from=" + searchVO.getFrom());
-		if ( !searchVO.getQuery().isEmpty() || searchVO.getQuery() != null) url.append("&where=" + searchVO.getQuery());
+		url.append("&where=" + searchVO.getQuery());
 		url.append("&offset=0");
 		url.append("&limit=10");
 		url.append("&charset=" + searchVO.getCharset());
@@ -527,12 +527,12 @@ public class DCUtil {
 		url.append(searchVO.getUrl());
 		url.append("?select=" + searchVO.getFields());
 		url.append("&from=" + searchVO.getFrom());
-		url.append("&where=" + searchVO.getQuery());
+		if ( !paramVO.getKwd().isEmpty() ) url.append("&where=" + searchVO.getQuery());
 		url.append("&offset=" + (paramVO.getPageNum()-1)*paramVO.getPageSize());
 		url.append("&limit=" + paramVO.getPageSize());
 		url.append("&charset=" + searchVO.getCharset());
-		url.append("&hilite-fields=" +searchVO.getHilightTxt());
-		url.append("&custom=" + searchVO.getLogInfo());
+//		url.append("&hilite-fields=" +searchVO.getHilightTxt());
+//		url.append("&custom=" + searchVO.getLogInfo());
 		return url.toString();
 	}
 

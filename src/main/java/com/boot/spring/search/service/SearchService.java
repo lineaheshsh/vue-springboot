@@ -50,6 +50,8 @@ public class SearchService {
 		paramVO.setKwd(kwd);
 		paramVO.setPageNum((int) currentPage);
 		paramVO.setCategory(pageName);
+		paramVO.setPageNum(0);
+		paramVO.setPageSize(10);
 		
 		return paramVO;
 		

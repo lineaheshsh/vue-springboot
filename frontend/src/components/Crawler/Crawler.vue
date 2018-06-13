@@ -5,13 +5,13 @@
       <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
       <b-row class="chart-container">
           <b-col cols="12">
-            <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
+            <bar-chart :chart-data="cBarDatacollection" :styles="barStyle"></bar-chart>
           </b-col>
       </b-row>
 
       <!-- Stack the columns on mobile by making one full-width and the other half-width -->
       <b-row>
-          <b-col cols="10" md="10" class="searchInput">
+          <b-col cols="12" md="10" class="searchInput">
             <b-input-group>
               <b-form-input placeholder="Search Keyword" v-model="kwd"></b-form-input>
               <b-input-group-append>
@@ -21,9 +21,9 @@
           </b-col>
       </b-row>
 
-      <b-row class="chart-container">
+      <b-row>
         <b-col cols="10">
-          <b-table striped hover :items="items"></b-table>
+          <b-table striped hover :items="cItems"></b-table>
           <b-pagination align="right" size="md" :total-rows="100" v-model="currentPage" :per-page="10">
           </b-pagination>
         </b-col>
@@ -35,19 +35,12 @@
 <script>
 import barChart from '../Chart/BarChart.vue'
 
-const items = [
-  { num: true, comment: 40, writer: 'Dickerson' },
-  { num: false, comment: 21, writer: 'Larsen' },
-  { num: false, comment: 89, writer: 'Geneva' },
-  { num: true, comment: 38, writer: 'Jami' }
-]
-
 export default {
   name: 'Main',
   data () {
     return {
-      barDatacollection: null,
-      items: items,
+      cBarDatacollection: null,
+      cItems: null,
       kwd: '',
       currentPage: 1,
       totalPage: 0
@@ -72,7 +65,7 @@ export default {
               barData.push(results[i].count)
             }
 
-            this.barDatacollection = {
+            this.cBarDatacollection = {
               labels: barLabel,
               datasets: [
                 {
@@ -94,8 +87,15 @@ export default {
           pageName: 'naverComment'
         }
       }).then((result) => {
-        console.log('result : ' + result)
-        console.log()
+        let results = result.data.result.result
+        let isData = results.length
+        for (let i = 0; i < isData; i++) {
+          this.cItems = results
+          console.log('push : ' + results)
+        }
+
+        this.currentPage = result.data.paging.pageNo
+        this.totalPage = result.data.paging.finalPageNo
       })
     }
   },

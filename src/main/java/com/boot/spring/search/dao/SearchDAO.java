@@ -91,7 +91,7 @@ private static final Logger logger = LoggerFactory.getLogger(SearchDAO.class);
 		logger.debug("RESTURL board : " + restUrl);
 		
 		RestResultVO restVO = new RestResultVO();
-		boolean success = restModule.restSearch(restUrl, restVO, searchVO.getFields());
+		boolean success = restModule.restGroupBy(restUrl, restVO, searchVO.getFields());
 		
 		
 		//초기화
@@ -110,9 +110,9 @@ private static final Logger logger = LoggerFactory.getLogger(SearchDAO.class);
 		StringBuffer query = new StringBuffer();
 		StringBuffer sbLog = new StringBuffer();
 		String strNmFd = "text_idx";
-
+		
 		// 쿼리 부분
-		if ( !paramVO.getKwd().isEmpty() || paramVO.getKwd() != null) {
+		if ( !paramVO.getKwd().isEmpty() ) {
 			query = dcUtil.makeQuery( strNmFd , paramVO.getKwd(), "allword", query, "AND");	
 		}
 		//결과내재검색
@@ -151,7 +151,7 @@ private static final Logger logger = LoggerFactory.getLogger(SearchDAO.class);
 		searchVO.setFields("*");
 		searchVO.setFrom("naverComment.naverComment");
 //		searchVO.setHilightTxt(konanPropertiesService.getString("boardHilight"));
-		if ( !paramVO.getKwd().isEmpty() || paramVO.getKwd() != null) {
+		if ( !paramVO.getKwd().isEmpty() || !paramVO.getKwd().equals("")) {
 			System.out.println("kwd : " + paramVO.getKwd());
 //			searchVO.setQuery(URLEncoder.encode("group by writer order by count(*) desc", "UTF-8"));
 		}
@@ -159,8 +159,7 @@ private static final Logger logger = LoggerFactory.getLogger(SearchDAO.class);
 //		searchVO.setLogInfo(URLEncoder.encode(sbLog.toString()));
 	
 		// URL 생성
-		String restUrl = dcUtil.getRestURL(searchVO);
-		logger.debug("RESTURL board : " + restUrl);
+		String restUrl = dcUtil.getRestURL(paramVO, searchVO);
 		
 		RestResultVO restVO = new RestResultVO();
 		boolean success = restModule.restSearch(restUrl, restVO, searchVO.getFields());

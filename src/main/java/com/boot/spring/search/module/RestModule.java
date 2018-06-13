@@ -72,6 +72,84 @@ public class RestModule {
 			
 			if(arr != null && arrCnt > 0) {
 //				String[] fields = selectField.split(",");
+				String[] fields = "num,writer,comment".split(",");
+				HashMap<String, Object> map;
+				List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>> (); 
+						
+				JSONObject result;
+				JSONObject record;
+				fieldCnt = fields.length;
+				for(int i=0; i<arrCnt; i++) {
+					map = new HashMap<String, Object> ();
+					
+					result = (JSONObject) arr.get(i);
+					record = (JSONObject) result.get("fields");
+					
+					for(int j=0; j<fieldCnt; j++) {
+//						if(!konanPropertiesService.getBoolean("useWarning")) {
+//							map.put(fields[j], record.get(fields[j]).toString()
+//									.replaceAll("\\(WARNING: EVALUATION COPY\\)", ""));
+//						} else {
+							map.put(fields[j], (String)record.get(fields[j]));
+//						}
+						
+						
+					}
+					
+					list.add(map);
+					map = null;
+				}
+				
+				restVO.setResult(list);
+			}
+			// 파싱 끝			
+			in.close();
+		} catch (Exception e) {
+			logger.error("ERROR:" + e.getMessage());
+			return false;
+		}		
+		
+		return true;
+	}
+	
+	public boolean restGroupBy(String restUrl, RestResultVO restVO, String selectField) {
+		URL url;
+		
+		try {
+			url = new URL(restUrl);	
+			URLConnection conn = url.openConnection();	
+			logger.debug(restUrl);
+			System.out.println("url : " + restUrl);
+
+			BufferedReader in = new BufferedReader
+					(new InputStreamReader(conn.getInputStream()));
+
+			//BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8")) ;
+			String line = "";
+			StringBuffer sb = new StringBuffer();
+			
+			while((line = in.readLine()) != null) {
+				sb.append(line);
+			}
+			
+			System.out.println("sb : " + sb.toString());
+
+			// 파싱하는 부분
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(sb.toString());
+			
+			JSONObject jsonObj = (JSONObject) obj;
+			restVO.setStatus((String)jsonObj.get("status"));
+			
+			JSONObject resultObj = (JSONObject) jsonObj.get("result");
+			restVO.setTotal((long)resultObj.get("total_count"));
+			
+			JSONArray arr = (JSONArray) resultObj.get("rows");
+			int arrCnt = arr.size();
+			int fieldCnt = 0;
+			
+			if(arr != null && arrCnt > 0) {
+//				String[] fields = selectField.split(",");
 				String[] fields = "writer,count(*)".split(",");
 				HashMap<String, Object> map;
 				List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>> (); 

@@ -31,7 +31,7 @@ public class SearchService {
 	}
 	
 	public RestResultVO getComments(ParameterVO paramVO) throws Exception {
-		
+		System.out.println("[service] getPageNum : " + paramVO.getPageNum());
 		return searchDao.getComments(paramVO);
 	}
 	
@@ -48,9 +48,9 @@ public class SearchService {
 		ParameterVO paramVO = new ParameterVO();
 		
 		paramVO.setKwd(kwd);
+		
 		paramVO.setPageNum((int) currentPage);
 		paramVO.setCategory(pageName);
-		paramVO.setPageNum(0);
 		paramVO.setPageSize(10);
 		
 		return paramVO;

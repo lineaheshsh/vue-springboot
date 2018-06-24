@@ -24,7 +24,7 @@
       <b-row>
         <b-col cols="10">
           <b-table striped hover :items="cItems"></b-table>
-          <b-pagination align="right" size="md" :total-rows="100" v-model="currentPage" :per-page="10">
+          <b-pagination align="right" size="md" :total-rows="totalRow" v-model="currentPage" v-on:input="goPage(currentPage)" limit="10" :per-page="10">
           </b-pagination>
         </b-col>
       </b-row>
@@ -43,7 +43,7 @@ export default {
       cItems: null,
       kwd: '',
       currentPage: 1,
-      totalPage: 0
+      totalRow: 0
     }
   },
   mounted () {
@@ -91,11 +91,29 @@ export default {
         let isData = results.length
         for (let i = 0; i < isData; i++) {
           this.cItems = results
-          console.log('push : ' + results)
         }
 
         this.currentPage = result.data.paging.pageNo
-        this.totalPage = result.data.paging.finalPageNo
+        this.totalRow = result.data.paging.totalCount
+      })
+    },
+    goPage (page) {
+      console.log()
+      this.$http.post('/search', {
+        data: {
+          kwd: this.kwd,
+          currentPage: page,
+          pageName: 'naverComment'
+        }
+      }).then((result) => {
+        let results = result.data.result.result
+        let isData = results.length
+        for (let i = 0; i < isData; i++) {
+          this.cItems = results
+        }
+
+        this.currentPage = result.data.paging.pageNo
+        this.totalRow = result.data.paging.totalCount
       })
     }
   },
@@ -136,6 +154,7 @@ a {
   margin-top: 30px;
   position: relative;
   left: 20%;
+  display: flex;
 }
 
 .chart-container {

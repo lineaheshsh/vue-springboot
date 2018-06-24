@@ -29,7 +29,7 @@
                           <em>{{ this.$store.state.user }}</em>
                           </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="/logout">Signout</b-dropdown-item>
+                        <b-dropdown-item href="/logout" v-on:click="logout">Signout</b-dropdown-item>
                       </b-nav-item-dropdown>
                     </div>
                     <div v-else>

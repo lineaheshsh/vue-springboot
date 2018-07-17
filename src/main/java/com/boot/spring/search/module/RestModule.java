@@ -149,8 +149,8 @@ public class RestModule {
 			int fieldCnt = 0;
 			
 			if(arr != null && arrCnt > 0) {
-//				String[] fields = selectField.split(",");
-				String[] fields = "writer,count(*)".split(",");
+				String[] fields = selectField.split(",");
+//				String[] fields = "writer,count(*)".split(",");
 				HashMap<String, Object> map;
 				List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>> (); 
 						
@@ -164,10 +164,6 @@ public class RestModule {
 					record = (JSONObject) result.get("fields");
 					
 					for(int j=0; j<fieldCnt; j++) {
-//						if(!konanPropertiesService.getBoolean("useWarning")) {
-//							map.put(fields[j], record.get(fields[j]).toString()
-//									.replaceAll("\\(WARNING: EVALUATION COPY\\)", ""));
-//						} else {
 						if ( fields[j].equals("count(*)") ) {
 							map.put("count", (long)record.get(fields[j]));
 //							System.out.println("record : " + (long)record.get(fields[j]) );
@@ -175,9 +171,6 @@ public class RestModule {
 							map.put(fields[j], (String)record.get(fields[j]));
 //							System.out.println("record : " + (String)record.get(fields[j]) );
 						}
-//						}
-						
-						
 					}
 					
 					list.add(map);

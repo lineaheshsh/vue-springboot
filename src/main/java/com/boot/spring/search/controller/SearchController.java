@@ -1,6 +1,8 @@
 package com.boot.spring.search.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.spring.common.vo.PagingVO;
 import com.boot.spring.search.service.SearchService;
@@ -53,6 +56,30 @@ public class SearchController {
 		return gson.toJson(result);
 	}
 	
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	@ResponseBody
+	public String searchToCrawlingData(@RequestBody String searchJSON) {
+		System.out.println("[search] START");
+		
+		System.out.println("search : " + searchJSON);
+		Gson gson = new Gson();
+		RestResultVO resultVO = null;
+		Map result = new HashMap<String, Object>();
+		try {
+			ParameterVO paramVO = searchService.setParameter(searchJSON);
+			resultVO = searchService.getComments(paramVO);
+			int total = (int) resultVO.getTotal();
+			
+			result.put("result", resultVO);
+			result.put("paging", setPagingModel(paramVO.getPageNum(), total));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return gson.toJson(result);
+	}
+	
 	@RequestMapping(value="/getCrawlingData", method=RequestMethod.GET)
 	@ResponseBody
 	public String getCrawlingData() {
@@ -60,8 +87,11 @@ public class SearchController {
 		System.out.println("[getCrawlingData] START");
 		Gson gson = new Gson();
 		RestResultVO resultVO = null;
+		Map<String, RestResultVO> resultMap = new HashMap<String, RestResultVO>();
 		try {
-			resultVO = searchService.getCommentGroupBy();
+//			resultVO = searchService.getCommentGroupBy();
+			resultMap.put("ranking", searchService.getCommentGroupBy(10));
+			resultMap.put("wordCloud", searchService.getIssueWordGroupBy(30));
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -69,7 +99,7 @@ public class SearchController {
 		}
 		
 		
-		return gson.toJson(resultVO);
+		return gson.toJson(resultMap);
 	}
 	
 	private PagingVO setPagingModel(int pageNum, int totalCount) {

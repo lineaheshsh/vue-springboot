@@ -9,6 +9,13 @@
           </b-col>
       </b-row>
 
+      <b-row class="chart-container">
+          <b-col cols="12">
+            <wordcloud :data="cWordCloud" nameKey="issue_word" valueKey="count">
+            </wordcloud>
+          </b-col>
+      </b-row>
+
       <!-- Stack the columns on mobile by making one full-width and the other half-width -->
       <b-row>
           <b-col cols="12" md="10" class="searchInput">
@@ -34,12 +41,14 @@
 
 <script>
 import barChart from '../Chart/BarChart.vue'
+import wordcloud from 'vue-wordcloud'
 
 export default {
   name: 'Main',
   data () {
     return {
       cBarDatacollection: null,
+      cWordCloud: [],
       cItems: null,
       kwd: '',
       currentPage: 1,
@@ -54,27 +63,33 @@ export default {
     getCrawlingData () {
       this.$http.get('/getCrawlingData')
         .then((result) => {
-          let results = result.data.result
-          let isData = results.length
+          let rankingResults = result.data.ranking.result
+          let isData = rankingResults.length
           if (isData > 0) {
             let barLabel = []
             let barData = []
 
             for (let i = 0; i < isData; i++) {
-              barLabel.push(results[i].writer)
-              barData.push(results[i].count)
+              barLabel.push(rankingResults[i].writer)
+              barData.push(rankingResults[i].count)
             }
 
             this.cBarDatacollection = {
               labels: barLabel,
               datasets: [
                 {
-                  label: 'Data One',
+                  label: ['green'],
                   backgroundColor: ['#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige'],
                   data: barData
                 }
               ]
             }
+          }
+
+          let wordCloudResults = result.data.wordCloud.result
+          isData = wordCloudResults.length
+          if (isData) {
+            this.cWordCloud = wordCloudResults
           }
         })
     },
@@ -127,7 +142,8 @@ export default {
     }
   },
   components: {
-    barChart: barChart
+    barChart: barChart,
+    wordcloud
   }
 }
 </script>
@@ -174,7 +190,7 @@ a {
 
 .chartDiv {
   float: left;
-  margin-left: 20px;
+  margin-left: 100px;
 }
 
 #bar-chart {

@@ -25,9 +25,14 @@ public class SearchService {
 //		return memberDao.selectMembers(keyword);		
 //	}
 	
-	public RestResultVO getCommentGroupBy() throws Exception {
+	public RestResultVO getCommentGroupBy(int limit) throws Exception {
 		
-		return searchDao.getCommentGroupBy();
+		return searchDao.getCommentGroupBy(limit);
+	}
+	
+	public RestResultVO getIssueWordGroupBy(int limit) throws Exception {
+		
+		return searchDao.getIssueWordGroupBy(limit);
 	}
 	
 	public RestResultVO getComments(ParameterVO paramVO) throws Exception {

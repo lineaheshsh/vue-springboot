@@ -501,17 +501,15 @@ public class DCUtil {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	public String getRestURL(SearchVO searchVO) throws UnsupportedEncodingException {
+	public String getRestURL(SearchVO searchVO, int limit) throws UnsupportedEncodingException {
 		StringBuffer url = new StringBuffer();
 		url.append(searchVO.getUrl());
 		url.append("?select=" + searchVO.getFields());
 		url.append("&from=" + searchVO.getFrom());
 		url.append("&where=" + searchVO.getQuery());
 		url.append("&offset=0");
-		url.append("&limit=10");
+		url.append("&limit=" + limit);
 		url.append("&charset=" + searchVO.getCharset());
-//		url.append("&hilite-fields=" +searchVO.getHilightTxt());
-//		url.append("&custom=" + searchVO.getLogInfo());
 		return url.toString();
 	}
 	

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.boot.spring.login.dao.LoginDAO;
+import com.boot.spring.login.vo.LoginCountVO;
 import com.boot.spring.login.vo.LoginVO;
 import com.boot.spring.member.vo.MemberVO;
 
@@ -41,7 +42,11 @@ public class LoginService {
 		return loginDao.loginCheck(loginVO);
 	}
 	
-	public void loginCount() {
-		
+	public int loginAccessCount(int seq) {
+		return loginDao.loginAccessCount(seq);
+	}
+	
+	public LoginCountVO getTodayLoginCount(int seq) {
+		return loginDao.getTodayLoginCount(seq);
 	}
 }

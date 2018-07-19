@@ -1,35 +1,33 @@
 <template>
   <div id="contents">
     <b-container class="bv-example-row chartDiv">
+      <h3><em>2018-07-19 기준 "맨체스터 유나이티드" 관련 뉴스 댓글 정보</em></h3>
 
       <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
       <b-row class="chart-container">
           <b-col cols="12">
+            <h4>[ Naver Comment Ranking Top 10 ]</h4>
             <bar-chart :chart-data="cBarDatacollection" :styles="barStyle"></bar-chart>
           </b-col>
       </b-row>
-
+      <hr>
       <b-row class="chart-container">
           <b-col cols="12">
+            <h4>[ Hot Issue Keyword ]</h4>
             <wordcloud :data="cWordCloud" nameKey="issue_word" valueKey="count">
             </wordcloud>
           </b-col>
       </b-row>
-
-      <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+      <hr>
       <b-row>
-          <b-col cols="12" md="10" class="searchInput">
-            <b-input-group>
+        <b-col cols="10">
+          <h4>[ Comments collected ]</h4>
+          <b-input-group>
               <b-form-input placeholder="Search Keyword" v-model="kwd"></b-form-input>
               <b-input-group-append>
                 <b-btn variant="outline-success" v-on:click="search">Search</b-btn>
               </b-input-group-append>
             </b-input-group>
-          </b-col>
-      </b-row>
-
-      <b-row>
-        <b-col cols="10">
           <b-table striped hover :items="cItems"></b-table>
           <b-pagination align="right" size="md" :total-rows="totalRow" v-model="currentPage" v-on:input="goPage(currentPage)" limit="10" :per-page="10">
           </b-pagination>
@@ -79,7 +77,7 @@ export default {
               datasets: [
                 {
                   label: ['green'],
-                  backgroundColor: ['#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige'],
+                  backgroundColor: ['#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8'],
                   data: barData
                 }
               ]
@@ -150,8 +148,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h3, h4 {
   font-weight: normal;
+  margin-bottom: 20px;
+}
+h4 {
+  background-color: beige;
 }
 ul {
   list-style-type: none;
@@ -176,8 +178,8 @@ a {
 .chart-container {
   position: relative;
   margin: auto;
-  height: 80vh;
-  width: 80vw;
+  height: 70vh;
+  width: 70vw;
 }
 
 .searchInput {
@@ -197,4 +199,7 @@ a {
   height: 395px;
 }
 
+.wordCloud {
+  width: 70% !important;
+}
 </style>

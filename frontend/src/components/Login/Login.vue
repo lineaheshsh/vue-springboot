@@ -41,6 +41,7 @@ export default {
         } else {
           alert('로그인 성공!')
           this.$store.state.user = result.data.m_name
+          this.$store.state.seq = result.data.m_seq
           localStorage.setItem('user', result.data.m_name)
           this.$router.push('/')
         }

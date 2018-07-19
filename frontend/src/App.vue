@@ -17,7 +17,8 @@ export default {
   data () {
     return {
       user: '',
-      password: ''
+      password: '',
+      seq: ''
     }
   },
   components: {

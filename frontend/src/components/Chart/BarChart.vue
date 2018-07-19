@@ -29,7 +29,7 @@ export default {
         },
         title: {
           display: true,
-          text: 'Naver Comment Ranking 10'
+          text: 'Bar Graph Data'
         },
         responsive: true,
         maintainAspectRatio: false

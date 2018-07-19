@@ -1,6 +1,10 @@
 <template>
   <div id="contents">
     <b-container class="bv-example-row chartDiv">
+      <div v-if="loginCount > -1">
+        <h1>changho.lee은 오늘 {{loginCount}}번 로그인 하셨습니다.</h1>
+      </div>
+
       <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
       <b-row class="chart-container">
           <b-col cols="6">
@@ -39,12 +43,14 @@ export default {
   data () {
     return {
       pieDatacollection: null,
-      barDatacollection: null
+      barDatacollection: null,
+      loginCount: -1
     }
   },
   mounted () {
     this.showDisk()
     this.showMonth()
+    this.getTodayLoginCount()
     // this.temp()
   },
   methods: {
@@ -70,6 +76,17 @@ export default {
             }
           }
         })
+    },
+    getTodayLoginCount () {
+      this.$http.get('/getTodayLoginCount', {
+        params: {
+          seq: this.$store.state.seq
+        }
+      }).then((result) => {
+        console.log('result : ' + result)
+        console.log()
+        this.loginCount = result.data.cnt
+      })
     },
     showMonth () {
       this.barDatacollection = {
@@ -140,7 +157,7 @@ a {
 }
 
 #contents {
-  width: 100%;
+  width: 80%;
   margin-top: 30px;
   position: relative;
   left: 20%;

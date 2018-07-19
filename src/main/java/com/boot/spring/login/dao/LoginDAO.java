@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.boot.spring.login.vo.LoginCountVO;
 import com.boot.spring.login.vo.LoginVO;
 import com.boot.spring.member.vo.MemberVO;
 
@@ -24,5 +25,16 @@ public class LoginDAO {
 		System.out.println("[loginCheck] login Info : " + login.toString());
 		
 		return sqlSession.selectOne("loginCheck", login);
+	}
+	
+	public int loginAccessCount(int seq) {
+		System.out.println("[loginAccessCount] seq Info : " + seq);
+		
+		return sqlSession.insert("loginAccessCount", seq);
+	}
+	
+	public LoginCountVO getTodayLoginCount(int seq) {
+		
+		return sqlSession.selectOne("getTodayLoginCount", seq);
 	}
 }

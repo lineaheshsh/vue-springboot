@@ -25,4 +25,26 @@
     	 WHERE m_id = #{ user }
     	   AND m_pw = #{ password }
     </select>
+    
+    <insert id="loginAccessCount" parameterType="Integer">
+    	INSERT
+    	  INTO accesscount (
+    	   member_seq
+    	  ,count
+    	  )
+    	 VALUES (
+    	   #{seq}
+    	   ,1
+    	 )
+    </insert>
+    
+    <select id="getTodayLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
+    	SELECT member_seq
+    	      ,count(*) as cnt
+    	      ,DATE_FORMAT(reg_date,'%Y%m%d') as reg_date
+    	  FROM accesscount
+    	 WHERE member_seq = #{seq}
+    	   AND DATE_FORMAT(reg_date,'%Y%m%d') >= DATE_FORMAT(NOW(), '%Y%m%d')
+    	 GROUP BY count
+    </select>
 </mapper>

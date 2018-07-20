@@ -1,5 +1,7 @@
 package com.boot.spring.login.service;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +45,18 @@ public class LoginService {
 	}
 	
 	public int loginAccessCount(int seq) {
-		return loginDao.loginAccessCount(seq);
+		
+		int success = loginDao.loginAccessCount(seq);
+		System.out.println("[LoginService] loginAccessCount >> success = " + success);
+		if ( success == 1 ) return success;
+		else return 0;
 	}
 	
 	public LoginCountVO getTodayLoginCount(int seq) {
 		return loginDao.getTodayLoginCount(seq);
+	}
+	
+	public List<LoginCountVO> getWeekLoginCount(int seq) {
+		return loginDao.getWeekLoginCount(seq);
 	}
 }

@@ -7,9 +7,9 @@
         <hr>
       </div>
       <div id="user-actions">
-        <p>AAAAA</p>
-        <p>BBBBB</p>
-        <p>CCCCC</p>
+        <p>1990.06.24</p>
+        <p>MAN</p>
+        <p>Korean</p>
       </div>
     </div>
     <div id="noProfile" v-show="!this.$store.state.user" />

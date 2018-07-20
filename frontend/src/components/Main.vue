@@ -12,7 +12,7 @@
             <line-chart></line-chart>
           </b-col>
           <b-col cols="6">
-            <h3>Bar Chart</h3>
+            <h3>Access Times this week</h3>
             <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
           </b-col>
       </b-row>
@@ -49,8 +49,9 @@ export default {
   },
   mounted () {
     this.showDisk()
-    this.showMonth()
-    this.getTodayLoginCount()
+    // this.showMonth()
+    // this.getTodayLoginCount()
+    this.accessCheck()
     // this.temp()
   },
   methods: {
@@ -100,17 +101,37 @@ export default {
         ]
       }
     },
-    temp () {
-      this.pieDatacollection = {
-        labels: ['Free', 'Usage'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: ['#17a2b8', 'beige'],
-            data: [170.7, 57.5],
-            height: '395'
+    accessCheck () {
+      if (this.$store.state.seq) {
+        this.$http.post('/accessCountAdd', {
+          data: {
+            seq: this.$store.state.seq
           }
-        ]
+        }).then((result) => {
+          console.log('result : ' + result)
+          let dataArr = []
+
+          let data = result.data
+
+          dataArr.push(0)
+          dataArr.push(0)
+          dataArr.push(0)
+          dataArr.push(0)
+          dataArr.push(0)
+          dataArr.push(data[0].cnt)
+          dataArr.push(data[1].cnt)
+
+          this.barDatacollection = {
+            labels: ['2018-07-14', '2018-07-15', '2018-07-16', '2018-07-17', '2018-07-18', '2018-07-19', '2018-07-20'],
+            datasets: [
+              {
+                label: 'Count',
+                backgroundColor: ['#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige', '#17a2b8', 'beige'],
+                data: dataArr
+              }
+            ]
+          }
+        })
       }
     }
   },

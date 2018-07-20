@@ -64,6 +64,7 @@ export default {
     this.langs = ['EN', 'CN', 'KO']
 
     this.$store.state.user = localStorage.getItem('user')
+    this.$store.state.seq = localStorage.getItem('seq')
     // this.$eventHub.$on('loginEventBus', this.login)
   },
   methods: {
@@ -71,6 +72,7 @@ export default {
       this.$store.state.user = ''
       this.$store.state.seq = ''
       localStorage.removeItem('user')
+      localStorage.removeItem('seq')
       this.$router.push('/')
       console.log('logout success....')
     },

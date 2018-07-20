@@ -1,12 +1,10 @@
 package com.boot.spring.login.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.boot.spring.common.util.CommonUtils;
 import com.boot.spring.login.service.LoginService;
 import com.boot.spring.login.vo.LoginCountVO;
 import com.boot.spring.member.vo.MemberVO;
@@ -25,6 +24,9 @@ public class LoginController {
 	
 	@Autowired
 	LoginService loginService;
+	
+	@Autowired
+	private CommonUtils common;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login() {
@@ -60,9 +62,6 @@ public class LoginController {
 		}
 		else {
 			
-			int success = loginService.loginAccessCount(memberVO.getM_seq());
-			System.out.println("success : " + success);
-			
 			System.out.println("[loginCheck] End");
 			return gson.toJson(memberVO);
 		}
@@ -79,14 +78,23 @@ public class LoginController {
 		LoginCountVO loginCountVO = loginService.getTodayLoginCount(seq);
 			
 		return gson.toJson(loginCountVO);
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return null;
-//		}
 		
+	}
+	
+	@RequestMapping(value="/accessCountAdd", method=RequestMethod.POST)
+	@ResponseBody
+	public String accessCountAdd(HttpServletRequest request, @RequestBody String jsonData) {
 		
+		Gson gson = new Gson();
+		List<LoginCountVO> loginCountVO = null;
+		Map<String, String> parseData = common.parseJsonToMap("seq", jsonData);
+		int seq = Integer.parseInt(parseData.get("seq"));
+		int success = loginService.loginAccessCount(seq);
 		
+		if ( success == 1 ) {
+			loginCountVO = loginService.getWeekLoginCount(seq);
+			return gson.toJson(loginCountVO);
+		} else 	return null;
 		
 	}
 }

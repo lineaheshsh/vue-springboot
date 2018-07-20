@@ -47,4 +47,14 @@
     	   AND DATE_FORMAT(reg_date,'%Y%m%d') >= DATE_FORMAT(NOW(), '%Y%m%d')
     	 GROUP BY count
     </select>
+    
+    <select id="getWeekLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
+    	SELECT a.member_seq
+    	      ,count(*) as cnt
+    	      ,DATE_FORMAT(a.reg_date,'%Y%m%d') as reg_date
+    	  FROM accesscount a
+    	 WHERE a.member_seq = #{seq}
+    	   AND DATE_FORMAT(a.reg_date,'%Y%m%d') >= DATE_FORMAT(date_add(now(),interval -7 day), '%Y%m%d')
+         GROUP BY DATE_FORMAT(a.reg_date,'%Y%m%d');
+    </select>
 </mapper>

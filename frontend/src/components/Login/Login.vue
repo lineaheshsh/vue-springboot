@@ -43,6 +43,7 @@ export default {
           this.$store.state.user = result.data.m_name
           this.$store.state.seq = result.data.m_seq
           localStorage.setItem('user', result.data.m_name)
+          localStorage.setItem('seq', result.data.m_seq)
           this.$router.push('/')
         }
       })

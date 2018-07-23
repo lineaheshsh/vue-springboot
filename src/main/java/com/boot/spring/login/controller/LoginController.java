@@ -68,14 +68,14 @@ public class LoginController {
 		
 	}
 	
-	@RequestMapping(value="/getTodayLoginCount", method=RequestMethod.GET)
+	@RequestMapping(value="/getTotalTodayLoginCount", method=RequestMethod.GET)
 	@ResponseBody
 	public String getTodayLoginCount(HttpServletRequest request ) {
-		System.out.println("[getTodayLoginCount] Start");	
+		System.out.println("[getTotalTodayLoginCount] Start");	
 
 		Gson gson = new Gson();
 		int seq = Integer.parseInt(request.getParameter("seq"));
-		LoginCountVO loginCountVO = loginService.getTodayLoginCount(seq);
+		LoginCountVO loginCountVO = loginService.getTotalTodayLoginCount(seq);
 			
 		return gson.toJson(loginCountVO);
 		
@@ -93,6 +93,7 @@ public class LoginController {
 		
 		if ( success == 1 ) {
 			loginCountVO = loginService.getWeekLoginCount(seq);
+			System.out.println("loginCountVo : " + loginCountVO.toString());
 			return gson.toJson(loginCountVO);
 		} else 	return null;
 		

@@ -50,11 +50,31 @@
     
     <select id="getWeekLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
     	SELECT a.member_seq
-    	      ,count(*) as cnt
-    	      ,DATE_FORMAT(a.reg_date,'%Y%m%d') as reg_date
-    	  FROM accesscount a
-    	 WHERE a.member_seq = #{seq}
-    	   AND DATE_FORMAT(a.reg_date,'%Y%m%d') >= DATE_FORMAT(date_add(now(),interval -7 day), '%Y%m%d')
-         GROUP BY DATE_FORMAT(a.reg_date,'%Y%m%d');
+    	      ,IF(a.count is null,0,count(*)) as cnt
+    	      ,DATE_FORMAT(b.yyyymmdd,'%Y-%m-%d') as reg_date
+    	  FROM accesscount a RIGHT OUTER JOIN (select  DATE_FORMAT(dt.yyyymmdd, '%Y%m%d') as yyyymmdd
+										from    (
+										        select      curdate() - INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY as yyyymmdd
+										                    ,a.a as aa
+										                    ,b.a as ba
+										                    ,c.a as ca
+										        from        (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as a
+										        cross join  (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as b
+										        cross join  (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as c
+										        ) dt
+										where DATE_FORMAT(dt.yyyymmdd, '%Y%m%d') between DATE_FORMAT(date_add(now(),interval -6 day), '%Y%m%d') and now()) b
+		    ON DATE_FORMAT(a.reg_date,'%Y%m%d') = b.yyyymmdd
+		   AND a.member_seq = #{seq}
+         GROUP BY DATE_FORMAT(b.yyyymmdd,'%Y%m%d')
+         ORDER BY b.yyyymmdd ASC
+    </select>
+    
+    <select id="getTotalTodayLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
+    	SELECT a.member_seq
+		      ,count(*) as cnt
+		      ,DATE_FORMAT(a.reg_date,'%Y-%m-%d')
+		  FROM accesscount a
+		 WHERE DATE_FORMAT(a.reg_date,'%Y%m%d') = DATE_FORMAT(now(),'%Y%m%d')
+		   GROUP BY DATE_FORMAT(a.reg_date,'%Y%m%d')
     </select>
 </mapper>

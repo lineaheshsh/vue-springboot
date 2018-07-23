@@ -9,11 +9,41 @@
       <b-row class="chart-container">
           <b-col cols="6">
             <h3>Line Chart</h3>
-            <line-chart></line-chart>
-          </b-col>
-          <b-col cols="6">
-            <h3>Access Times this week</h3>
-            <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
+            <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+              <div class="md-card md-card-stats md-theme-default">
+                <div class="md-card-header">
+                  <img src="https://png.icons8.com/color/50/000000/cd.png">store
+                </div>
+                <div class="md-card-content">
+                  <p class="category">Revenue</p>
+                  <h3 class="title">$34,245</h3>
+                </div>
+                <div class="md-card-actions md-alignment-left">
+                  <div class="stats">
+                    <i class="md-icon md-icon-font md-theme-default">date_range</i>
+                    Last 24 Hours
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3>Line Chart</h3>
+            <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+              <div class="md-card md-card-stats md-theme-default">
+                <div class="md-card-header">
+                  <img src="https://png.icons8.com/color/50/000000/cd.png">store
+                </div>
+                <div class="md-card-content">
+                  <p class="category">Revenue</p>
+                  <h3 class="title">$34,245</h3>
+                </div>
+                <div class="md-card-actions md-alignment-left">
+                  <div class="stats">
+                    <i class="md-icon md-icon-font md-theme-default">date_range</i>
+                    Last 24 Hours
+                  </div>
+                </div>
+              </div>
+            </div>            
           </b-col>
       </b-row>
 
@@ -24,8 +54,8 @@
             <pie-chart :chart-data="pieDatacollection" :styles="pieStyle"></pie-chart>
           </b-col>
           <b-col cols="6">
-            <h3>Scatter Chart</h3>
-            <scatter-chart></scatter-chart>
+            <h3>Access Times this week</h3>
+            <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
           </b-col>
       </b-row>
     </b-container>
@@ -110,19 +140,16 @@ export default {
         }).then((result) => {
           console.log('result : ' + result)
           let dataArr = []
-
+          let regDateArr = []
           let data = result.data
 
-          dataArr.push(0)
-          dataArr.push(0)
-          dataArr.push(0)
-          dataArr.push(0)
-          dataArr.push(0)
-          dataArr.push(data[0].cnt)
-          dataArr.push(data[1].cnt)
+          for (let i = 0; i < data.length; i++) {
+            dataArr.push(data[i].cnt)
+            regDateArr.push(data[i].reg_date)
+          }
 
           this.barDatacollection = {
-            labels: ['2018-07-14', '2018-07-15', '2018-07-16', '2018-07-17', '2018-07-18', '2018-07-19', '2018-07-20'],
+            labels: regDateArr,
             datasets: [
               {
                 label: 'Count',
@@ -208,4 +235,72 @@ a {
   height: 395px;
 }
 
+.md-card {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin: 25px 0;
+    overflow: unset;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
+    border-radius: 3px;
+    color: rgba(0,0,0,.87);
+    background: #fff;
+}
+
+.md-layout-item.md-size-25 {
+    min-width: 25%;
+    max-width: 25%;
+    flex: 0 1 25%;
+}
+
+.md-layout-item {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.md-card-header {
+    background-color: navajowhite;
+}
+
+.md-card-stats .md-card-header {
+    float: left;
+    text-align: center;
+}
+
+.md-card-stats .md-card-content {
+    text-align: right;
+    padding-top: 10px;
+}
+
+.md-card .md-card-content {
+    padding: 15px 20px;
+}
+
+.md-card .md-card-actions {
+    margin: 0 20px 10px;
+    padding: 10px 0 0;
+    border-top: 1px solid #eee;
+}
+
+.md-card-stats .md-card-header img {
+    font-size: 36px!important;
+    line-height: 56px;
+    width: 56px;
+    height: 56px;
+    color: #fff!important;
+}
+
+.md-card .category:not([class*=text-]) {
+    color: #999;
+}
+
+p {
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.md-card-stats .title {
+    margin: 0;
+}
 </style>

@@ -5,7 +5,7 @@ import java.sql.Date;
 public class LoginCountVO {
 	int member_seq;
 	int cnt;
-	long reg_data;
+	String reg_date;
 	
 	
 	public int getMember_seq() {
@@ -20,12 +20,16 @@ public class LoginCountVO {
 	public void setCount(int cnt) {
 		this.cnt = cnt;
 	}
-	public long getReg_data() {
-		return reg_data;
+	public String getReg_data() {
+		return reg_date;
 	}
-	public void setReg_data(long reg_data) {
-		this.reg_data = reg_data;
+	public void setReg_data(String reg_date) {
+		this.reg_date = reg_date;
 	}
 	
+	@Override
+	public String toString() {
+		return "LoginCountVO [member_seq=" + member_seq + ", cnt=" + cnt + ", reg_date=" + reg_date + "]";
+	}
 	
 }

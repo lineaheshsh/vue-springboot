@@ -5,6 +5,7 @@ import Sidebar from '../components/Side/Sidebar.vue'
 
 import Login from '@/components/Login/Login'
 import Crawler from '@/components/Crawler/Crawler'
+import PhotoGalley from '@/components/Photo/PhotoGallery'
 
 Vue.use(Router)
 
@@ -34,6 +35,13 @@ export default new Router({
       path: '/crawler',
       components: {
         default: Crawler,
+        sidebar: Sidebar
+      }
+    },
+    {
+      path: '/photo',
+      components: {
+        default: PhotoGalley,
         sidebar: Sidebar
       }
     }

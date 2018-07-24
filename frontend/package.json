@@ -21,6 +21,8 @@
     "jquery": "^3.3.1",
     "vue": "^2.5.2",
     "vue-chartjs": "^3.3.1",
+    "vue-daum-map": "^1.0.12",
+    "vue-masonry": "^0.11.4",
     "vue-router": "^3.0.1",
     "vue-session": "^1.0.0",
     "vuex": "^3.0.1"

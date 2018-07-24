@@ -18,7 +18,10 @@ export default {
     return {
       user: '',
       password: '',
-      seq: ''
+      seq: '',
+      birthday: '',
+      gender: '',
+      nation: ''
     }
   },
   components: {

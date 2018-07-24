@@ -69,7 +69,7 @@
          ORDER BY b.yyyymmdd ASC
     </select>
     
-    <select id="getTotalTodayLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
+    <select id="getTotalTodayLoginCount" resultType="com.boot.spring.login.vo.LoginCountVO">
     	SELECT a.member_seq
 		      ,count(*) as cnt
 		      ,DATE_FORMAT(a.reg_date,'%Y-%m-%d')

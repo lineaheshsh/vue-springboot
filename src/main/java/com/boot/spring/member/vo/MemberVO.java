@@ -13,6 +13,8 @@ public class MemberVO {
 	private char   m_gender;
 	private String m_regdate;
 	private String m_update;
+	private String m_birthday;
+	private String m_nation;
 	private List<MemberRole> roles;
 	
 	
@@ -63,6 +65,24 @@ public class MemberVO {
 	}
 	public void setM_update(String m_update) {
 		this.m_update = m_update;
+	}
+	public String getM_regdate() {
+		return m_regdate;
+	}
+	public void setM_regdate(String m_regdate) {
+		this.m_regdate = m_regdate;
+	}
+	public String getM_birthday() {
+		return m_birthday;
+	}
+	public void setM_birthday(String m_birthday) {
+		this.m_birthday = m_birthday;
+	}
+	public String getM_nation() {
+		return m_nation;
+	}
+	public void setM_nation(String m_nation) {
+		this.m_nation = m_nation;
 	}
 	public List<MemberRole> getRoles() {
 		return roles;

@@ -29,7 +29,13 @@ public class CommonUtils {
 					result.put(fieldsArr[i], (String) dataObject.get(fieldsArr[i]));
 				}
 			} else {
-				result.put(fields, (String) dataObject.get(fields));
+				if ( dataObject.get(fields) instanceof Long ) {
+					long temp = (Long) dataObject.get(fields);
+					result.put(fields, Long.toString(temp));
+				} else if ( dataObject.get(fields) instanceof String ) {
+					result.put(fields, (String) dataObject.get(fields));
+				}
+				
 			}
 			
 			return result;

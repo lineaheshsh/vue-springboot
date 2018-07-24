@@ -29,7 +29,7 @@
                           <em>{{ this.$store.state.user }}</em>
                           </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="/logout" v-on:click="logout">Signout</b-dropdown-item>
+                        <b-dropdown-item href="#" v-on:click="logout">Signout</b-dropdown-item>
                       </b-nav-item-dropdown>
                     </div>
                     <div v-else>
@@ -45,10 +45,23 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
+        <modal v-if="showModal" @close="showModal = false">
+          <h3 slot="header">
+              Success
+          </h3>
+          <span slot="body">
+              로그아웃이 정상적으로 되었습니다.
+          </span>
+          <span slot="footer" @click="goLoginPage()">
+            <button>Ok</button>
+          </span>
+        </modal>
     </b-container>
 </template>
 
 <script>
+import Modal from '../Common/Modal.vue'
+
 export default {
   name: 'Header',
   data () {
@@ -56,7 +69,8 @@ export default {
       menus: [],
       langs: [],
       keyword: '',
-      user: ''
+      user: '',
+      showModal: ''
     }
   },
   created () {
@@ -69,16 +83,23 @@ export default {
   },
   methods: {
     logout () {
+      this.showModal = true
+    },
+    search () {
+      console.log('search Kwd : ' + this.keyword)
+    },
+    goLoginPage () {
+      this.showModal = false
       this.$store.state.user = ''
       this.$store.state.seq = ''
       localStorage.removeItem('user')
       localStorage.removeItem('seq')
-      this.$router.push('/')
       console.log('logout success....')
-    },
-    search () {
-      console.log('search Kwd : ' + this.keyword)
+      this.$router.push('/login')
     }
+  },
+  components: {
+    Modal: Modal
   }
 }
 </script>

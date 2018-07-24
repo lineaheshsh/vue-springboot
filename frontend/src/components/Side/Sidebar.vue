@@ -1,21 +1,23 @@
 <template>
   <div id="sidebar">
     <div id="profile" v-show="this.$store.state.user">
-      <img src="../../assets/avatar-1.f743093.svg" id="avatar" class="inline-block">
+      <img v-if="this.$store.state.gender == 'm'" src="../../assets/man.jpg" id="avatar" class="inline-block">
+      <img v-else src="../../assets/woman.jpg" id="avatar" class="inline-block">
       <div id="user-name">
         <span class="text-white">{{ this.$store.state.user }}</span>
         <hr>
       </div>
       <div id="user-actions">
-        <p>1990.06.24</p>
-        <p>MAN</p>
-        <p>Korean</p>
+        <p>{{ this.$store.state.birthday }}</p>
+        <p v-if="this.$store.state.gender == 'm'">MAN</p>
+        <p v-else>WOMAN</p>
+        <p>{{ this.$store.state.nation }}</p>
       </div>
     </div>
     <div id="noProfile" v-show="!this.$store.state.user" />
     <b-nav vertical class="w-100">
       <b-nav-item> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Info</b-nav-item>
-      <b-nav-item> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Career</b-nav-item>
+      <b-nav-item href="photo"> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Photo</b-nav-item>
       <b-nav-item href="crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
       <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
     </b-nav>
@@ -32,6 +34,9 @@ export default {
   },
   created () {
     console.log('user ; ' + this.$store.state.user)
+    this.$store.state.birthday = localStorage.getItem('birthday')
+    this.$store.state.gender = localStorage.getItem('gender')
+    this.$store.state.nation = localStorage.getItem('nation')
   },
   methods: {
     login (user) {
@@ -55,6 +60,11 @@ export default {
 #profile {
     height: auto;
     background-color: #17a2b8 !important;
+}
+
+#profile img {
+  width: 100px;
+  height: 100px;
 }
 
 #noProfile {

@@ -36,13 +36,13 @@ public class LoginController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public String logout() {
-//		public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
-		System.out.println("Main Page -> Go");
-		
-		return "index";
-	}
+//	@RequestMapping(value="/logout", method=RequestMethod.GET)
+//	public String logout() {
+////		public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
+//		System.out.println("Main Page -> Go");
+//		
+//		return "index";
+//	}
 	
 	
 	@RequestMapping(value="/loginCheck", method=RequestMethod.POST)
@@ -74,9 +74,10 @@ public class LoginController {
 		System.out.println("[getTotalTodayLoginCount] Start");	
 
 		Gson gson = new Gson();
-		int seq = Integer.parseInt(request.getParameter("seq"));
-		LoginCountVO loginCountVO = loginService.getTotalTodayLoginCount(seq);
-			
+//		int seq = Integer.parseInt(request.getParameter("seq"));
+		LoginCountVO loginCountVO = loginService.getTotalTodayLoginCount();
+//		System.out.println("[getTotalTodayLoginCount] loginCountVO : " + loginCountVO.toString());
+		
 		return gson.toJson(loginCountVO);
 		
 	}
@@ -87,13 +88,14 @@ public class LoginController {
 		
 		Gson gson = new Gson();
 		List<LoginCountVO> loginCountVO = null;
+		System.out.println("[accessCountAdd] jsonData : " + jsonData);
 		Map<String, String> parseData = common.parseJsonToMap("seq", jsonData);
 		int seq = Integer.parseInt(parseData.get("seq"));
 		int success = loginService.loginAccessCount(seq);
 		
 		if ( success == 1 ) {
 			loginCountVO = loginService.getWeekLoginCount(seq);
-			System.out.println("loginCountVo : " + loginCountVO.toString());
+//			System.out.println("loginCountVo : " + loginCountVO.toString());
 			return gson.toJson(loginCountVO);
 		} else 	return null;
 		

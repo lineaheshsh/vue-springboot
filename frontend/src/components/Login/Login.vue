@@ -13,15 +13,39 @@
       </div>
       <button v-on:click="login">Submit</button>
     </div>
+    <modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header" v-if="loginStatus">
+        Success
+      </h3>
+      <h3 slot="header" v-else>
+        Warning
+      </h3>
+      <span slot="body" v-if="loginStatus">
+          로그인 성공!
+      </span>
+      <span slot="body" v-else>
+          로그인 실패하였습니다. ID 또는 Password를 확인하시기 바랍니다.
+      </span>
+      <span slot="footer" @click="goMainPage()" v-if="loginStatus">
+        <button>Ok</button>
+      </span>
+      <span slot="footer" @click="showModal = false" v-else>
+        <button>Ok</button>
+      </span>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from '../Common/Modal.vue'
+
 export default {
   data () {
     return {
       user: '',
-      password: ''
+      password: '',
+      showModal: '',
+      loginStatus: false
     }
   },
   methods: {
@@ -37,17 +61,31 @@ export default {
       }).then((result) => {
         console.log('result : ' + result)
         if (result.data === 'failed') {
-          alert('로그인 정보가 잘못되었습니다.')
+          this.loginStatus = false
+          this.showModal = true
         } else {
-          alert('로그인 성공!')
+          this.loginStatus = true
+          this.showModal = true
           this.$store.state.user = result.data.m_name
           this.$store.state.seq = result.data.m_seq
+          this.$store.state.birthday = result.data.m_birthday
+          this.$store.state.gender = result.data.m_gender
+          this.$store.state.nation = result.data.m_nation
           localStorage.setItem('user', result.data.m_name)
           localStorage.setItem('seq', result.data.m_seq)
-          this.$router.push('/')
+          localStorage.setItem('birthday', result.data.m_birthday)
+          localStorage.setItem('gender', result.data.m_gender)
+          localStorage.setItem('nation', result.data.m_nation)
         }
       })
+    },
+    goMainPage () {
+      this.showModal = false
+      this.$router.push('/')
     }
+  },
+  components: {
+    Modal: Modal
   }
 }
 </script>

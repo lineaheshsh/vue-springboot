@@ -13,10 +13,12 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import {VueMasonryPlugin} from 'vue-masonry'
 import 'chart.js'
 
 Vue.use(BootstrapVue)
 Vue.use(VueSession)
+Vue.use(VueMasonryPlugin)
 Vue.prototype.$http = axios
 Vue.prototype.$eventHub = new Vue()
 

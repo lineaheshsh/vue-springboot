@@ -52,8 +52,8 @@ public class LoginService {
 		else return 0;
 	}
 	
-	public LoginCountVO getTotalTodayLoginCount(int seq) {
-		return loginDao.getTotalTodayLoginCount(seq);
+	public LoginCountVO getTotalTodayLoginCount() {
+		return loginDao.getTotalTodayLoginCount();
 	}
 	
 	public List<LoginCountVO> getWeekLoginCount(int seq) {

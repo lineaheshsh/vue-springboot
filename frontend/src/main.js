@@ -14,11 +14,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import {VueMasonryPlugin} from 'vue-masonry'
+import VueGeolocation from 'vue-browser-geolocation'
+
 import 'chart.js'
 
 Vue.use(BootstrapVue)
 Vue.use(VueSession)
 Vue.use(VueMasonryPlugin)
+Vue.use(VueGeolocation)
 Vue.prototype.$http = axios
 Vue.prototype.$eventHub = new Vue()
 

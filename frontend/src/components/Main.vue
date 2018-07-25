@@ -64,19 +64,8 @@
               :mapTypeId="mapTypeId"
               :libraries="libraries"
               @load="onLoad"
-              @center_changed="onMapEvent('center_changed', $event)"
-              @zoom_start="onMapEvent('zoom_start', $event)"
               @zoom_changed="onMapEvent('zoom_changed', $event)"
-              @bounds_changed="onMapEvent('bounds_changed', $event)"
-              @click="onMapEvent('click', $event)"
-              @dblclick="onMapEvent('dblclick', $event)"
-              @rightclick="onMapEvent('rightclick', $event)"
-              @mousemove="onMapEvent('mousemove', $event)"
-              @dragstart="onMapEvent('dragstart', $event)"
-              @drag="onMapEvent('drag', $event)"
-              @dragend="onMapEvent('dragend', $event)"
-              @idle="onMapEvent('idle', $event)"
-              @tilesloaded="onMapEvent('tilesloaded', $event)"
+              @dragend="onMapEvent('drag', $event)"
               @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
               style="width:500px;height:400px;">
             </vue-daum-map>
@@ -103,11 +92,12 @@ export default {
       totalSpace: null,
       freeSpace: null,
       appKey: '6e20f7c4e0062d5285c487e9d3b18cd7', // 테스트용 appkey
-      center: {lat: 33.450701, lng: 126.570667}, // 지도의 중심 좌표
+      center: {lat: 0, lng: 0}, // 지도의 중심 좌표
       level: 3, // 지도의 레벨(확대, 축소 정도),
       mapTypeId: VueDaumMap.MapTypeId.NORMAL, // 맵 타입
       libraries: [], // 추가로 불러올 라이브러리
-      map: null // 지도 객체. 지도가 로드되면 할당됨.
+      map: null, // 지도 객체. 지도가 로드되면 할당됨.
+      marker: {position: this.center}
     }
   },
   mounted () {
@@ -115,7 +105,6 @@ export default {
     // this.showMonth()
     this.getTotalTodayLoginCount()
     this.accessCheck()
-    // this.temp()
   },
   methods: {
     showDisk () {
@@ -192,7 +181,37 @@ export default {
       }
     },
     onLoad (map) {
-      this.map = map
+      this.$getLocation({
+        enableHighAccuracy: false,
+        timeout: Infinity,
+        maximumAge: 0
+      })
+        .then(coordinates => {
+          console.log(coordinates)
+          console.log()
+          this.center.lat = coordinates.lat
+          this.center.lng = coordinates.lng
+          console.log(map)
+          this.map = map
+        })
+    },
+    onMapEvent (eventName, event) {
+      console.log('eventName : ' + eventName)
+      console.log('event : ' + event)
+      console.log()
+      this.$getLocation({
+        enableHighAccuracy: false,
+        timeout: Infinity,
+        maximumAge: 0
+      })
+        .then(coordinates => {
+          console.log(coordinates)
+          console.log()
+          this.center.lat = coordinates.lat
+          this.center.lng = coordinates.lng
+        })
+      console.log('lat : ' + this.center.lat)
+      console.log('lng : ' + this.center.lng)
     }
   },
   computed: {

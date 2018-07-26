@@ -56,6 +56,10 @@ public class LoginService {
 		return loginDao.getTotalTodayLoginCount();
 	}
 	
+	public List<LoginCountVO> getTodayAccessRanking10() {
+		return loginDao.getTodayAccessRanking10();
+	}
+	
 	public List<LoginCountVO> getWeekLoginCount(int seq) {
 		return loginDao.getWeekLoginCount(seq);
 	}

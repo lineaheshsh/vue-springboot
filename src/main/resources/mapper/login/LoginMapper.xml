@@ -38,14 +38,18 @@
     	 )
     </insert>
     
-    <select id="getTodayLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
-    	SELECT member_seq
-    	      ,count(*) as cnt
-    	      ,DATE_FORMAT(reg_date,'%Y%m%d') as reg_date
-    	  FROM accesscount
-    	 WHERE member_seq = #{seq}
-    	   AND DATE_FORMAT(reg_date,'%Y%m%d') >= DATE_FORMAT(NOW(), '%Y%m%d')
-    	 GROUP BY count
+    <select id="getTodayAccessRanking10" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">
+    	SELECT m.m_id
+      		  ,a.cnt
+  		  FROM member m RIGHT OUTER JOIN ( SELECT member_seq
+											      ,count(*) as cnt
+											  FROM accesscount
+											 WHERE DATE_FORMAT(reg_date,'%Y%m%d') = DATE_FORMAT(now(),'%Y%m%d')
+											   GROUP BY member_seq
+										  ) a
+	  		ON m.m_seq = a.member_seq
+		 ORDER BY a.cnt desc
+		 LIMIT 10
     </select>
     
     <select id="getWeekLoginCount" parameterType="Integer" resultType="com.boot.spring.login.vo.LoginCountVO">

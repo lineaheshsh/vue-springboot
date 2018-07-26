@@ -56,19 +56,32 @@
             <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
           </b-col>
           <b-col cols="6">
+            <b-card no-body header="<h3>오늘 Top 10 방문객</h3>">
+            <b-list-group flush>
+              <b-list-group-item  v-for="(user, index) in loginUsers" v-bind:key="user.m_id" class="d-flex justify-content-between align-items-center">
+                {{ index + 1 }}. {{ user.m_id }}
+                <b-badge variant="primary" pill>{{ user.cnt }}</b-badge>
+              </b-list-group-item>
+            </b-list-group>
+          </b-col>
+      </b-row>
+
+      <!-- Columns are always 50% wide, on mobile and desktop -->
+      <b-row class="chart-container">
+          <b-col cols="12">
             <h3>"{{ this.$store.state.user }}"님의 현재 위치</h3>
-            <vue-daum-map
-              :appKey="appKey"
-              :center.sync="center"
-              :level.sync="level"
-              :mapTypeId="mapTypeId"
-              :libraries="libraries"
-              @load="onLoad"
-              @zoom_changed="onMapEvent('zoom_changed', $event)"
-              @dragend="onMapEvent('drag', $event)"
-              @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
-              style="width:500px;height:400px;">
-            </vue-daum-map>
+              <vue-daum-map
+                :appKey="appKey"
+                :center.sync="center"
+                :level.sync="level"
+                :mapTypeId="mapTypeId"
+                :libraries="libraries"
+                @load="onLoad"
+                @zoom_changed="onMapEvent('zoom_changed', $event)"
+                @dragend="onMapEvent('drag', $event)"
+                @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
+                style="width:800px;height:400px;">
+              </vue-daum-map>
           </b-col>
       </b-row>
     </b-container>
@@ -89,6 +102,7 @@ export default {
       pieDatacollection: null,
       barDatacollection: null,
       loginCount: -1,
+      loginUsers: [],
       totalSpace: null,
       freeSpace: null,
       appKey: '6e20f7c4e0062d5285c487e9d3b18cd7', // 테스트용 appkey
@@ -102,7 +116,7 @@ export default {
   },
   mounted () {
     this.showDisk()
-    // this.showMonth()
+    this.getTodayAccessRanking10()
     this.getTotalTodayLoginCount()
     this.accessCheck()
   },
@@ -138,6 +152,14 @@ export default {
         this.loginCount = result.data.cnt
       })
     },
+    getTodayAccessRanking10 () {
+      this.$http.get('/getTodayAccessRanking10', {
+      }).then((result) => {
+        console.log('result : ' + result)
+        console.log()
+        this.loginUsers = result.data
+      })
+    },
     showMonth () {
       this.barDatacollection = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -151,34 +173,35 @@ export default {
       }
     },
     accessCheck () {
-      if (this.$store.state.seq) {
-        this.$http.post('/accessCountAdd', {
-          data: {
-            seq: this.$store.state.seq
-          }
-        }).then((result) => {
-          console.log('result : ' + result)
-          let dataArr = []
-          let regDateArr = []
-          let data = result.data
-
-          for (let i = 0; i < data.length; i++) {
-            dataArr.push(data[i].cnt)
-            regDateArr.push(data[i].reg_date)
-          }
-
-          this.barDatacollection = {
-            labels: regDateArr,
-            datasets: [
-              {
-                label: 'Count',
-                backgroundColor: ['#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8'],
-                data: dataArr
-              }
-            ]
-          }
-        })
+      if (!this.$store.state.seq) {
+        this.$store.state.seq = 7
       }
+      this.$http.post('/accessCountAdd', {
+        data: {
+          seq: this.$store.state.seq
+        }
+      }).then((result) => {
+        console.log('result : ' + result)
+        let dataArr = []
+        let regDateArr = []
+        let data = result.data
+
+        for (let i = 0; i < data.length; i++) {
+          dataArr.push(data[i].cnt)
+          regDateArr.push(data[i].reg_date)
+        }
+
+        this.barDatacollection = {
+          labels: regDateArr,
+          datasets: [
+            {
+              label: 'Count',
+              backgroundColor: ['#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8', '#17a2b8'],
+              data: dataArr
+            }
+          ]
+        }
+      })
     },
     onLoad (map) {
       this.$getLocation({
@@ -272,6 +295,7 @@ a {
   margin: auto;
   height: 80vh;
   width: 80vw;
+  left: 30px;
 }
 
 .chart-container-small{

@@ -49,6 +49,11 @@ public class LoginDAO {
 		return sqlSession.selectOne("getTotalTodayLoginCount");
 	}
 	
+	public List<LoginCountVO> getTodayAccessRanking10() {
+		
+		return sqlSession.selectList("getTodayAccessRanking10");
+	}
+	
 	public List<LoginCountVO> getWeekLoginCount(int seq) {
 		
 		return sqlSession.selectList("getWeekLoginCount", seq);

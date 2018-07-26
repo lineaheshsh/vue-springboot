@@ -82,6 +82,20 @@ public class LoginController {
 		
 	}
 	
+	@RequestMapping(value="/getTodayAccessRanking10", method=RequestMethod.GET)
+	@ResponseBody
+	public String getTodayAccessRanking10(HttpServletRequest request ) {
+		System.out.println("[getTodayAccessRanking10] Start");	
+
+		Gson gson = new Gson();
+//		int seq = Integer.parseInt(request.getParameter("seq"));
+		List<LoginCountVO> loginCountVO = loginService.getTodayAccessRanking10();
+//		System.out.println("[getTotalTodayLoginCount] loginCountVO : " + loginCountVO.toString());
+		
+		return gson.toJson(loginCountVO);
+		
+	}
+	
 	@RequestMapping(value="/accessCountAdd", method=RequestMethod.POST)
 	@ResponseBody
 	public String accessCountAdd(HttpServletRequest request, @RequestBody String jsonData) {

@@ -77,8 +77,10 @@ export default {
     this.menus = ['News', 'Chart', 'Project']
     this.langs = ['EN', 'CN', 'KO']
 
-    this.$store.state.user = localStorage.getItem('user')
-    this.$store.state.seq = localStorage.getItem('seq')
+    // this.$store.state.user = localStorage.getItem('user')
+    // this.$store.state.seq = localStorage.getItem('seq')
+    this.$store.state.user = this.$session.get('user')
+    this.$store.state.seq = this.$session.get('seq')
     // this.$eventHub.$on('loginEventBus', this.login)
   },
   methods: {

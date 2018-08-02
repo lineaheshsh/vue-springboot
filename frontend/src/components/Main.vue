@@ -52,17 +52,25 @@
       <!-- Columns are always 50% wide, on mobile and desktop -->
       <b-row class="chart-container">
           <b-col cols="6">
-            <h3>"{{ this.$store.state.user }}"님의 이번주 방문횟수</h3>
+            <b-card no-body>
+              <div slot="header">
+                <h3>'{{ this.$store.state.user }}'님의 이번주 방문횟수</h3>
+              </div>
             <bar-chart :chart-data="barDatacollection" :styles="barStyle"></bar-chart>
+            </b-card>
           </b-col>
           <b-col cols="6">
-            <b-card no-body header="<h3>오늘 Top 10 방문객</h3>">
-            <b-list-group flush>
-              <b-list-group-item  v-for="(user, index) in loginUsers" v-bind:key="user.m_id" class="d-flex justify-content-between align-items-center">
-                {{ index + 1 }}. {{ user.m_id }}
-                <b-badge variant="primary" pill>{{ user.cnt }}</b-badge>
-              </b-list-group-item>
-            </b-list-group>
+            <b-card no-body>
+              <div slot="header">
+                <h3>Top 10 방문객</h3>
+              </div>
+              <b-list-group flush>
+                <b-list-group-item  v-for="(user, index) in loginUsers" v-bind:key="user.m_id" class="d-flex justify-content-between align-items-center">
+                  {{ index + 1 }}. {{ user.m_id }}
+                  <b-badge variant="primary" pill>{{ user.cnt }}</b-badge>
+                </b-list-group-item>
+              </b-list-group>
+            </b-card>
           </b-col>
       </b-row>
 
@@ -115,9 +123,8 @@ export default {
     }
   },
   mounted () {
+    this.$Progress.start()
     this.showDisk()
-    this.getTodayAccessRanking10()
-    this.getTotalTodayLoginCount()
     this.accessCheck()
   },
   methods: {
@@ -201,6 +208,9 @@ export default {
             }
           ]
         }
+
+        this.getTodayAccessRanking10()
+        this.getTotalTodayLoginCount()
       })
     },
     onLoad (map) {
@@ -210,12 +220,11 @@ export default {
         maximumAge: 0
       })
         .then(coordinates => {
-          console.log(coordinates)
-          console.log()
           this.center.lat = coordinates.lat
           this.center.lng = coordinates.lng
-          console.log(map)
           this.map = map
+
+          this.$Progress.finish()
         })
     },
     onMapEvent (eventName, event) {
@@ -294,7 +303,6 @@ a {
   position: relative;
   margin: auto;
   height: 80vh;
-  width: 80vw;
   left: 30px;
 }
 
@@ -302,7 +310,6 @@ a {
   position: relative;
   margin: auto;
   height: 30vh;
-  width: 80vw;
 }
 
 .searchInput {
@@ -348,7 +355,7 @@ a {
 }
 
 .col-6 {
-  background-color: seashell;
+  /* background-color: seashell; */
   border-radius: 5px;
   position: relative;
   margin: 25px 0;
@@ -418,5 +425,9 @@ p {
 .chart-content .title {
     margin: 0;
     font-size: 1.25rem !important;
+}
+
+.card {
+    margin-top: 10px;
 }
 </style>

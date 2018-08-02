@@ -9,7 +9,7 @@
       </div>
       <div class="input-form">
         <i class="fas fa-key fa-lg" aria-hidden="true"></i>
-        <input type="password" value="" v-model="password" placeholder="Password" id="password" />
+        <input type="password" value="" v-model="password" @keyup.enter="login" placeholder="Password" id="password" />
       </div>
       <button v-on:click="login">Submit</button>
     </div>
@@ -50,32 +50,41 @@ export default {
   },
   methods: {
     login () {
-      console.log('user --> ' + this.user)
-      console.log('password --> ' + this.password)
-
+      this.$Progress.start()
       this.$http.post('/loginCheck', {
         data: {
           user: this.user,
           password: this.password
         }
       }).then((result) => {
-        console.log('result : ' + result)
         if (result.data === 'failed') {
+          this.$Progress.fail()
           this.loginStatus = false
           this.showModal = true
         } else {
-          this.loginStatus = true
-          this.showModal = true
-          this.$store.state.user = result.data.m_name
-          this.$store.state.seq = result.data.m_seq
-          this.$store.state.birthday = result.data.m_birthday
-          this.$store.state.gender = result.data.m_gender
-          this.$store.state.nation = result.data.m_nation
-          localStorage.setItem('user', result.data.m_name)
-          localStorage.setItem('seq', result.data.m_seq)
-          localStorage.setItem('birthday', result.data.m_birthday)
-          localStorage.setItem('gender', result.data.m_gender)
-          localStorage.setItem('nation', result.data.m_nation)
+          if (result.status === 200 && 'token' in result.data) {
+            this.$Progress.finish()
+
+            this.$session.start()
+            this.$session.set('jwt', result.data.token)
+            this.$session.set('user', result.data.member.m_name)
+            this.$session.set('id', result.data.member.m_id)
+            this.$session.set('email', result.data.member.m_email)
+            this.$session.set('seq', result.data.member.m_seq)
+            this.$session.set('birthday', result.data.member.m_birthday)
+            this.$session.set('gender', result.data.member.m_gender)
+            this.$session.set('nation', result.data.member.m_nation)
+
+            this.loginStatus = true
+            this.showModal = true
+            this.$store.state.user = result.data.member.m_name
+            this.$store.state.id = result.data.member.m_id
+            this.$store.state.email = result.data.member.m_email
+            this.$store.state.seq = result.data.member.m_seq
+            this.$store.state.birthday = result.data.member.m_birthday
+            this.$store.state.gender = result.data.member.m_gender
+            this.$store.state.nation = result.data.member.m_nation
+          }
         }
       })
     },

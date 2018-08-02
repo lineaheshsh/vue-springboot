@@ -168,7 +168,7 @@ a {
 }
 
 #contents {
-  width: 100%;
+  width: 80%;
   margin-top: 30px;
   position: relative;
   left: 20%;

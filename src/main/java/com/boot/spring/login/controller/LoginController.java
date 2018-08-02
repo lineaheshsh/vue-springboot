@@ -1,5 +1,6 @@
 package com.boot.spring.login.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,9 @@ import com.boot.spring.login.service.LoginService;
 import com.boot.spring.login.vo.LoginCountVO;
 import com.boot.spring.member.vo.MemberVO;
 import com.google.gson.Gson;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Controller
 public class LoginController {
@@ -52,6 +56,7 @@ public class LoginController {
 		System.out.println("[loginCheck] Start");
 		String result = "failed";
 		Gson gson = new Gson();
+		Map<String, Object> response;
 		
 		MemberVO memberVO = loginService.loginCheck(userJSON);
 		
@@ -61,9 +66,21 @@ public class LoginController {
 			return result;
 		}
 		else {
-			
+			response = new HashMap<String, Object>();
+			String jwt = Jwts.builder()
+					.setHeaderParam("typ", "JWT")
+					.setHeaderParam("issueDate", System.currentTimeMillis())
+					.setSubject(memberVO.toString())
+					.signWith(SignatureAlgorithm.HS256, "luvookSecretaaaaaaaabbbbbbbbbbbbbbbbb".getBytes("UTF-8"))
+					.compact();
+				    
+			System.out.println("jwt >>>>>>>>>>> " + jwt);
 			System.out.println("[loginCheck] End");
-			return gson.toJson(memberVO);
+			
+			response.put("token", jwt);
+			response.put("member", memberVO);
+			
+			return gson.toJson(response);
 		}
 		
 	}
@@ -74,9 +91,7 @@ public class LoginController {
 		System.out.println("[getTotalTodayLoginCount] Start");	
 
 		Gson gson = new Gson();
-//		int seq = Integer.parseInt(request.getParameter("seq"));
 		LoginCountVO loginCountVO = loginService.getTotalTodayLoginCount();
-//		System.out.println("[getTotalTodayLoginCount] loginCountVO : " + loginCountVO.toString());
 		
 		return gson.toJson(loginCountVO);
 		
@@ -88,9 +103,7 @@ public class LoginController {
 		System.out.println("[getTodayAccessRanking10] Start");	
 
 		Gson gson = new Gson();
-//		int seq = Integer.parseInt(request.getParameter("seq"));
 		List<LoginCountVO> loginCountVO = loginService.getTodayAccessRanking10();
-//		System.out.println("[getTotalTodayLoginCount] loginCountVO : " + loginCountVO.toString());
 		
 		return gson.toJson(loginCountVO);
 		

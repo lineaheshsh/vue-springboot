@@ -16,7 +16,7 @@
     </div>
     <div id="noProfile" v-show="!this.$store.state.user" />
     <b-nav vertical class="w-100">
-      <b-nav-item> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Info</b-nav-item>
+      <b-nav-item href="info"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Info</b-nav-item>
       <b-nav-item href="photo"> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Photo</b-nav-item>
       <b-nav-item href="crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
       <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
@@ -34,9 +34,13 @@ export default {
   },
   created () {
     console.log('user ; ' + this.$store.state.user)
-    this.$store.state.birthday = localStorage.getItem('birthday')
-    this.$store.state.gender = localStorage.getItem('gender')
-    this.$store.state.nation = localStorage.getItem('nation')
+    if (this.$session.exists()) {
+      this.$store.state.birthday = this.$session.get('birthday')
+      this.$store.state.email = this.$session.get('email')
+      this.$store.state.id = this.$session.get('id')
+      this.$store.state.gender = this.$session.get('gender')
+      this.$store.state.nation = this.$session.get('nation')
+    }
   },
   methods: {
     login (user) {

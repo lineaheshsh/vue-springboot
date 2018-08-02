@@ -15,13 +15,30 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import {VueMasonryPlugin} from 'vue-masonry'
 import VueGeolocation from 'vue-browser-geolocation'
+import VueProgressBar from 'vue-progressbar'
 
 import 'chart.js'
+
+const options = {
+  color: '#bffaf3',
+  failedColor: '#874b4b',
+  thickness: '5px',
+  transition: {
+    speed: '0.2s',
+    opacity: '0.6s',
+    termination: 300
+  },
+  autoRevert: true,
+  location: 'top',
+  inverse: false
+}
 
 Vue.use(BootstrapVue)
 Vue.use(VueSession)
 Vue.use(VueMasonryPlugin)
 Vue.use(VueGeolocation)
+Vue.use(VueSession)
+Vue.use(VueProgressBar, options)
 Vue.prototype.$http = axios
 Vue.prototype.$eventHub = new Vue()
 

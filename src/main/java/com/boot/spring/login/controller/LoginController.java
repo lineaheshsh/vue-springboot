@@ -40,13 +40,13 @@ public class LoginController {
 		return "index";
 	}
 	
-//	@RequestMapping(value="/logout", method=RequestMethod.GET)
-//	public String logout() {
-////		public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
-//		System.out.println("Main Page -> Go");
-//		
-//		return "index";
-//	}
+	@RequestMapping(value="/user", method=RequestMethod.GET)
+	public String logout() {
+//		public String login(@AuthenticationPrincipal LoginUserDetails userDetails) {
+		System.out.println("UserList Page -> Go");
+		
+		return "index";
+	}
 	
 	
 	@RequestMapping(value="/loginCheck", method=RequestMethod.POST)
@@ -116,7 +116,7 @@ public class LoginController {
 		Gson gson = new Gson();
 		List<LoginCountVO> loginCountVO = null;
 		System.out.println("[accessCountAdd] jsonData : " + jsonData);
-		Map<String, String> parseData = common.parseJsonToMap("seq", jsonData);
+		Map<String, String> parseData = common.parseJsonToMap(jsonData);
 		int seq = Integer.parseInt(parseData.get("seq"));
 		int success = loginService.loginAccessCount(seq);
 		

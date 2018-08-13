@@ -1,5 +1,7 @@
 package com.boot.spring.member.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,10 @@ public class MemberService {
 		}
 		
 		return memberDao.getMember(id);
+	}
+	
+	public int userUpdate(Map userInfo) {
+		
+		return memberDao.userUpdate(userInfo);
 	}
 }

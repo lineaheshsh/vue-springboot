@@ -13,4 +13,14 @@
     	  FROM member
     	 WHERE m_id = #{id}
     </select>
+    
+    <update id="updateMember" parameterType="Map">
+    	UPDATE member
+    	   SET m_id = #{id}
+    	      ,m_email = #{email}
+    	      ,m_name = #{user}
+    	      ,m_birthday = #{birthday}
+    	      ,m_nation = #{nation}
+    	 WHERE m_seq = #{seq}
+    </update>
 </mapper>

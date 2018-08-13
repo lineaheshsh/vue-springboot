@@ -1,6 +1,9 @@
 package com.boot.spring.common.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -12,30 +15,34 @@ import org.springframework.stereotype.Component;
 public class CommonUtils {
 
 	
-	public Map<String, String> parseJsonToMap(String fields, String jsonData) {
+	public Map<String, String> parseJsonToMap(String jsonData) {
 		
 		Map<String, String> result = new HashMap<String, String>();
 		JSONParser parser = new JSONParser();
+		List<String> keys = new ArrayList<String>();
 
 		JSONObject jsonObject;
 		try {
 			jsonObject = (JSONObject) parser.parse(jsonData);
 			JSONObject dataObject = (JSONObject) jsonObject.get("data");
+			Iterator<String> key = dataObject.keySet().iterator();
 			
-			if ( fields.indexOf(",") > -1 ) {
-				String[] fieldsArr = fields.split(",");
-				
-				for ( int i=0; i<fieldsArr.length; i++) {
-					result.put(fieldsArr[i], (String) dataObject.get(fieldsArr[i]));
+			 while(key.hasNext())
+		    {
+		        keys.add(key.next());
+		    }
+			
+			if ( !keys.isEmpty() ) {
+				for ( int i=0; i<keys.size(); i++) {
+					String k = keys.get(i);
+					
+					if ( dataObject.get(k) instanceof Long ) {
+						long temp = (Long) dataObject.get(k);
+						result.put(k, Long.toString(temp));
+					} else if ( dataObject.get(k) instanceof String ) {
+						result.put(k, (String) dataObject.get(k));
+					}
 				}
-			} else {
-				if ( dataObject.get(fields) instanceof Long ) {
-					long temp = (Long) dataObject.get(fields);
-					result.put(fields, Long.toString(temp));
-				} else if ( dataObject.get(fields) instanceof String ) {
-					result.put(fields, (String) dataObject.get(fields));
-				}
-				
 			}
 			
 			return result;

@@ -15,12 +15,21 @@
       </div>
     </div>
     <div id="noProfile" v-show="!this.$store.state.user" />
-    <b-nav vertical class="w-100">
-      <b-nav-item href="info"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Info</b-nav-item>
-      <b-nav-item href="photo"> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Photo</b-nav-item>
-      <b-nav-item href="crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
-      <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
-    </b-nav>
+    <div class="menuBar">
+      <b-nav vertical class="w-100" style="margin-top:10px">
+        <b-nav-item href="info"> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Info</b-nav-item>
+        <b-nav-item href="photo"> <img src="https://png.icons8.com/office/40/000000/compact-camera.png"> Photo</b-nav-item>
+        <b-nav-item href="crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
+        <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
+        <b-nav-item href="#" v-b-toggle.collapseA> <img src="https://png.icons8.com/color/30/000000/crown.png"> Admin</b-nav-item>
+        <b-collapse id="collapseA" class="mt-2">
+          <b-nav vertical class="w-100">
+            <b-nav-item href="user"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> User</b-nav-item>
+            <b-nav-item href="user"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Board</b-nav-item>
+          </b-nav>
+        </b-collapse>
+      </b-nav>
+    </div>
   </div>
 </template>
 
@@ -75,6 +84,11 @@ export default {
     border-top: 10px solid #17a2b8;
     margin-bottom: 20px
 }
+
+.nav {
+    display: inline-block;
+}
+
 .nav-link {
     padding: 0px;
     margin-bottom: 20px;
@@ -83,6 +97,11 @@ export default {
 .nav-item a {
     margin-left: 85px;
     margin-top: 20px;
+}
+
+.menuBar {
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 img {
@@ -117,4 +136,12 @@ a {
     color: rgba(0,0,0,.54);
 }
 
+.mt-2 {
+  margin-left: 30px;
+  display: inline !important;
+}
+
+a.nav-link {
+    margin-bottom: 15px !important;
+}
 </style>

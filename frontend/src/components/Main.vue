@@ -76,7 +76,7 @@
 
       <!-- Columns are always 50% wide, on mobile and desktop -->
       <b-row class="chart-container">
-          <b-col cols="12">
+          <b-col cols="10">
             <h3>"{{ this.$store.state.user }}"님의 현재 위치</h3>
               <vue-daum-map
                 :appKey="appKey"
@@ -368,6 +368,20 @@ a {
   max-width: 45% !important;
 }
 
+.col-10 {
+  /* background-color: seashell; */
+  border-radius: 5px;
+  position: relative;
+  margin: 25px 0;
+  margin-right: 20px;
+  overflow: unset;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
+  border-radius: 3px;
+  color: rgba(0,0,0,.87);
+  max-width: 80% !important;
+}
+
 .chart-header {
   width: 86px;
   height: 86px;
@@ -429,5 +443,6 @@ p {
 
 .card {
     margin-top: 10px;
+    width: 470px;
 }
 </style>

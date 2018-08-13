@@ -1,6 +1,7 @@
 package com.boot.spring.member.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,18 @@ public class MemberDAO {
 	public MemberVO getMember(String id) {
 		
 		return this.sqlSession.selectOne("getMember", id);
+	}
+	
+	public int userUpdate(Map userInfo) {
+		int success = -1;
+		try {
+			success = sqlSession.update("updateMember", userInfo);
+			System.out.println("[MemberDAO] userUpdate >> success = " + success);
+			return success;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERROR : " + e.getMessage());
+			return success;
+		}
 	}
 }

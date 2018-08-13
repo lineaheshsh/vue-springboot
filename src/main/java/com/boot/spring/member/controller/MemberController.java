@@ -1,7 +1,5 @@
 package com.boot.spring.member.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.boot.spring.common.util.CommonUtils;
 import com.boot.spring.login.service.LoginService;
-import com.boot.spring.login.vo.LoginCountVO;
-import com.boot.spring.member.vo.MemberVO;
+import com.boot.spring.member.service.MemberService;
 import com.google.gson.Gson;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @Controller
 public class MemberController {
@@ -30,12 +24,35 @@ public class MemberController {
 	LoginService loginService;
 	
 	@Autowired
-	private CommonUtils common;
+	MemberService memberService;
 	
+	@Autowired
+	private CommonUtils common;
+		
 	@RequestMapping(value="/info", method=RequestMethod.GET)
 	public String info() {
 		System.out.println("UserInfo Page -> Go");
 		
 		return "index";
+	}
+	
+	@RequestMapping(value="/userUpdate", method=RequestMethod.POST)
+	@ResponseBody
+	public String userUpdate(HttpServletRequest request, @RequestBody String userJSON, 
+			@RequestParam Map<String, Object> map) throws Exception{
+		System.out.println("[userUpdate] Start");
+		String result = "failed";
+		Gson gson = new Gson();
+		Map<String, Object> response;
+		
+		Map<String, String> parseData = common.parseJsonToMap(userJSON);
+		int success = memberService.userUpdate(parseData);
+		
+		if ( success == -1 ) {
+			return result;
+		} else {
+			result = "success";
+			return result;
+		}		
 	}
 }

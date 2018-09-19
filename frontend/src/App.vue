@@ -24,7 +24,12 @@ export default {
       seq: '',
       birthday: '',
       gender: '',
-      nation: ''
+      nation: '',
+      axios_config: {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }
     }
   },
   mounted () {

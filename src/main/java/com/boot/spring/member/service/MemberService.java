@@ -1,5 +1,6 @@
 package com.boot.spring.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,15 @@ public class MemberService {
 	public int userUpdate(Map userInfo) {
 		
 		return memberDao.userUpdate(userInfo);
+	}
+	
+	public int userInsert(MemberVO member) {
+		
+		return memberDao.userInsert(member);
+	}
+	
+	public List<MemberVO> getUserList() {
+		
+		return memberDao.getUserList();
 	}
 }

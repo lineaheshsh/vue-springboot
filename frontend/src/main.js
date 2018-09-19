@@ -16,9 +16,11 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {VueMasonryPlugin} from 'vue-masonry'
 import VueGeolocation from 'vue-browser-geolocation'
 import VueProgressBar from 'vue-progressbar'
+import VeeValidate from 'vee-validate'
 
 import 'chart.js'
 
+export const eventBus = new Vue()
 const options = {
   color: '#bffaf3',
   failedColor: '#874b4b',
@@ -39,6 +41,7 @@ Vue.use(VueMasonryPlugin)
 Vue.use(VueGeolocation)
 Vue.use(VueSession)
 Vue.use(VueProgressBar, options)
+Vue.use(VeeValidate)
 Vue.prototype.$http = axios
 Vue.prototype.$eventHub = new Vue()
 

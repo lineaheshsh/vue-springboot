@@ -17,15 +17,15 @@
     <div id="noProfile" v-show="!this.$store.state.user" />
     <div class="menuBar">
       <b-nav vertical class="w-100" style="margin-top:10px">
-        <b-nav-item href="info"> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Info</b-nav-item>
-        <b-nav-item href="photo"> <img src="https://png.icons8.com/office/40/000000/compact-camera.png"> Photo</b-nav-item>
-        <b-nav-item href="crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
+        <b-nav-item href="/info"> <img src="https://png.icons8.com/ultraviolet/40/000000/paste.png"> Info</b-nav-item>
+        <b-nav-item href="/photo"> <img src="https://png.icons8.com/office/40/000000/compact-camera.png"> Photo</b-nav-item>
+        <b-nav-item href="/crawler"> <img src="https://png.icons8.com/dotty/50/000000/under-computer.png"> Crawling</b-nav-item>
         <b-nav-item> <img src="https://png.icons8.com/color/50/000000/combo-chart.png"> Chart</b-nav-item>
         <b-nav-item href="#" v-b-toggle.collapseA> <img src="https://png.icons8.com/color/30/000000/crown.png"> Admin</b-nav-item>
         <b-collapse id="collapseA" class="mt-2">
           <b-nav vertical class="w-100">
-            <b-nav-item href="user"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> User</b-nav-item>
-            <b-nav-item href="user"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Board</b-nav-item>
+            <b-nav-item href="/user"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> User</b-nav-item>
+            <b-nav-item href="/user"> <img src="https://png.icons8.com/office/40/000000/person-male.png"> Board</b-nav-item>
           </b-nav>
         </b-collapse>
       </b-nav>

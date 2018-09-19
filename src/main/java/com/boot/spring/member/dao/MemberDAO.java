@@ -37,4 +37,28 @@ public class MemberDAO {
 			return success;
 		}
 	}
+	
+	public int userInsert(MemberVO member) {
+		int success = -1;
+		try {
+			success = sqlSession.update("insertMember", member);
+			System.out.println("[MemberDAO] userInsert >> success = " + success);
+			return success;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERROR : " + e.getMessage());
+			return success;
+		}
+	}
+	
+	public List<MemberVO> getUserList() {
+		try {
+			List<MemberVO> result = sqlSession.selectList("getMembers");
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERROR : " + e.getMessage());
+			return null;
+		}
+	}
 }

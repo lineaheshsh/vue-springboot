@@ -11,6 +11,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
+import com.boot.spring.member.vo.MemberVO;
+
 @Component
 public class CommonUtils {
 
